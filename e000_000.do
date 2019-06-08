@@ -71,7 +71,7 @@ set linesize 200
 **
 ** ANALYSIS DETAILS
 **
-** TABLE 1. LAC Countries and sub-Regions 
+** TABLE 1. LAC Countries and sub-Regions in 2016
 ** Table to introduce the XX countries by sub-region
 ** METRICS
 **      - Population

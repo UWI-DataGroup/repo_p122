@@ -1,6 +1,6 @@
 ** HEADER -----------------------------------------------------
 **  DO-FILE METADATA
-    //  algorithm name			    e0042_dataprep.do
+    //  algorithm name			    e004_dataprep.do
     //  project:				    Premature Mortality in the Caribbean (2000-2016)
     //  analysts:				    Ian HAMBLETON
     // 	date last modified	    	6-JUN-2019
@@ -29,7 +29,7 @@
 ** DATA PREPARATION OF COUNTRY POPULATION (2000 to 2015)
 
 ** ------------------------------------------------------------
-** FILE 4 - LAND USE
+** FILE 5 - LAND USE
 ** ------------------------------------------------------------
 ** Extracted from FAO STAT (http://www.fao.org/faostat/en/?#data/RL)
 ** Download Date: 8-JUN-2019
@@ -148,4 +148,3 @@ label values rid rid_
 keep if rid==1 | rid==2
 label data "Country and region land use data - from FAOSTAT (Oct-2018)"
 save "`datapath'/version01/2-working/file05_landuse", replace
-

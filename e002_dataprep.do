@@ -82,7 +82,7 @@ save "`datapath'/version01/2-working/file02_pmort2000_2016.dta", replace
 
 
 ** ------------------------------------------------------------
-** FILE 3 - PREMATURE MORTALITY FROM NCDs (30q70)
+** FILE 3 - COUNTRY CODES
 ** ------------------------------------------------------------
 ** Extracted from WHO Observatory (https://apps.who.int/gho/data/view.main.2485)
 ** Download Date: 6-JUN-2019
@@ -114,8 +114,34 @@ replace wbg = 3 if WorldBankincomegroup == "Upper middle income"
 replace wbg = 4 if WorldBankincomegroup == "High income"
 label define wbg_ 1 "wb_li" 2 "wb_lmi" 3 "wb_umi" 4 "wb_hi", modify 
 label values wbg wbg_ 
+label var wbg "World Bank income groups"
 order wbg, after(mid) 
 drop  WorldBankincomegroup
+tempfile country_id
+save `country_id', replace 
+
+** NEXT, we add in 2-digit numeric codes, used by UN datasets
+** Which allows me to join population data from UN WPP
+import excel "`datapath'/version01/1-input/wikipedia-iso-country-codes.xlsx", clear sheet("wikipedia-iso-country-codes") first
+drop  Alpha2code ISO31662
+rename  Alpha3code cid 
+rename  Numericcode unid 
+label var unid "UN WPP country ID"
+merge 1:1 cid using `country_id' 
+keep if _merge==3 
+drop _merge 
+tempfile country_id2
+save `country_id2', replace 
+
+** NEXT, we add in country codes used by FAO datasets (!) 
+** Which allows me to join FAO data
+import excel "`datapath'/version01/1-input/country_code_linkage.xlsx", clear sheet("Sheet1") first
+drop  shortname officialname iso2 unid undpid gaul
+rename iso3 cid 
+label var faoid "FAOSTAT country ID"
+merge 1:1 cid using `country_id2' 
+keep if _merge==3 
+drop _merge 
 
 ** Save the analysis dataset 
 save "`datapath'/version01/2-working/file03_country.dta", replace
