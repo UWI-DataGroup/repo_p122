@@ -26,7 +26,7 @@
 
 ** For SAP --> See e000_000.do
 
-** DATA PREPARATION OF PREMATURE MORTALITY
+** DATA PREPARATION --> PREMATURE NCD MORTALITY (30q70)
 
 ** ------------------------------------------------------------
 ** FILE 1 - PREMATURE MORTALITY FROM NCDs (30q70)
