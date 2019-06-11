@@ -26,7 +26,7 @@
 
 ** For SAP --> See e000_000.do
 
-** DATA PREPARATION OF COUNTRY POPULATION (2000 to 2015)
+** DATA PREPARATION OF COUNTRY LAND USE DATA
 
 ** ------------------------------------------------------------
 ** FILE 5 - LAND USE
