@@ -85,8 +85,8 @@ set linesize 200
 ** FIGURE 1. Regional EquiPlot
 ** Figure to show the absolute change in 30q70 between 2000 and 2016
 ** STRATIFIED by
-**      - 1st. Women and Men
-**      - 2nd. Year (2000, 05, 10, 15)
+**      - 1st. Women, Men., Both
+**      - 2nd. Year (2000, annually, 2016)
 **      - 3rd. LAC (?), LA and Caribbean
 ** 
 ** TABLE 2. The association of country characteristics on 30q70
@@ -118,3 +118,245 @@ set linesize 200
 
 ** Risk of NCD premature death
 ** https://apps.who.int/gho/data/view.main.2485
+
+
+
+** DO FILE DESCRIPTION 
+**
+** e001_dataprep.do 
+** ------------------------------------------------------------
+** FILE 1 - PREMATURE MORTALITY FROM NCDs (30q70)
+** ------------------------------------------------------------
+** UNIQUE IS: ISO-3 
+** Extracted from NCD CountDown (http://www.ncdcountdown.org/data-downloads-ncd4.html)
+** Download Date: 6-JUN-2019
+** Includes data from 30q70 for 2016, for women and men.
+** Also includes:
+**      major geographical region
+**      vital registration quality
+**      SDG 3.4 met by 2030 (categorical), separately for women and men
+** DATASET: file01_pmort2016.dta
+** N=186 rows
+** COUNTRIES = 186. LAC COUNTRIES = 32
+** 
+**
+**
+** e002_dataprep.do 
+** ------------------------------------------------------------
+** FILE 2 - PREMATURE MORTALITY FROM NCDs (30q70)
+** ------------------------------------------------------------
+** Extracted from WHO Observatory (https://apps.who.int/gho/data/view.main.2485)
+** Download Date: 6-JUN-2019
+** It includes data from 30q70 for 2000, 2005, 2010, 2015 and 2016, for women, men and both sexes
+** Also includes:
+**      Major region code 
+** DATASET: file02_pmort2000_2016.dta
+** N=2,745 rows
+** COUNTRIES = 183. (x3 sex) (x5 years) = 2,745 rows
+** AMERICAS COUNTRIES = 33
+**
+**
+**
+**
+** ** e003_dataprep.do
+** ------------------------------------------------------------
+** FILE 3 - COUNTRY CODES
+** ------------------------------------------------------------
+** Extracted from WHO Observatory (https://apps.who.int/gho/data/view.main.2485)
+** Download Date: 6-JUN-2019
+** It includes data iso-3 code (cid), FAO code (faoid), UN code (unid), WHO mortality database code (mid)
+** Also includes:
+**      World Bank income grouping, English country name 
+** DATASET: file03_country.dta
+** N=182 rows
+** COUNTRIES = 182.
+** AMERICAS COUNTRIES = (no region code in this dataset)
+**
+**
+**
+** e004_dataprep.do
+** ------------------------------------------------------------
+** FILE 4 - POPULATION
+** ------------------------------------------------------------
+** Extracted from UN World Population Prospects (https://population.un.org/wpp/Download/Standard/Population/)
+** Download Date: 8-JUN-2019
+** We prepare the country-level UN population data (not age-stratified)
+** Years: 1950 to 2020
+**      both sexes: WPP2017_POP_F01_1_TOTAL_POPULATION_BOTH_SEXES
+**      women only: WPP2017_POP_F01_3_TOTAL_POPULATION_FEMALE
+**      men only: WPP2017_POP_F01_3_TOTAL_POPULATION_MALE
+** DATASET: file04_population_both.dta / file04_population_women.dta / file04_population_men.dta  
+** N=273 rows
+** COUNTRIES = 233 (unid<900). Region populations = 40 (unid>=900)
+** AMERICAS COUNTRIES = (no region code in this dataset) 
+**
+**
+**
+** e005_dataprep.do
+** ------------------------------------------------------------
+** FILE 5 - LAND USE
+** ------------------------------------------------------------
+** Extracted from FAO STAT (http://www.fao.org/faostat/en/?#data/RL)
+** Download Date: 8-JUN-2019
+** Inputs_LandUse_E_All_Data_(Normalized).xlsx
+** We prepare the FAO data on country land are and agricultural land. 
+** Years: 1961 to 2016 (yrs not complete necessarily)
+** 
+** DATASET: file05_landuse.dta  
+** N=4,741 rows
+** COUNTRIES = 43 (Data restricted to LAC)
+** CARIBBEAN COUNTRIES = 26
+** LATIN AMERICA COUNTRIES = 17
+**
+**
+**
+** e006_dataprep.do
+** ------------------------------------------------------------
+** FILE 6 - WORLD BANK VARIABLES
+** ------------------------------------------------------------
+** Extracted from World Bank  (https://data.worldbank.org/indicator)
+** Download Date: 8-JUN-2019
+** Importation via the -wbopendata- software package
+** We prepare a range of variables using the World Bank Open Data Portal 
+** Years: 1961 to 2016 (yrs not complete necessarily)
+** METRICS CURRENTLY EXTRACTED
+**      Metric 01. GNI Atlas Method. NY.GNP.ATLS.CD. 
+**      Metric 02. GNI per capita, Atlas method (current US$).  NY.GNP.PCAP.CD
+**      Metric 03. Food production index (2004-2006 = 100). AG.PRD.FOOD.XD
+**      Metric 04. Surface area (sq. km). AG.SRF.TOTL.K2
+**      Metric 05. Agricultural land (% of land area). AG.LND.AGRI.ZS
+**      Metric 06. Population density (people per sq. km of land area). EN.POP.DNST
+**      Metric 07. Current health expenditure per capita (current US$). SH.XPD.CHEX.PC.CD
+**      Metric 08. Current health expenditure (% of GDP). SH.XPD.CHEX.GD.ZS
+**      Metric 09. Out-of-pocket expenditure (% of current health expenditure). SH.XPD.OOPC.CH.ZS
+**      Metric 10. External health expenditure (% of current health expenditure). SH.XPD.EHEX.CH.ZS
+**      Metric 11. Physicians (per 1,000 people). SH.MED.PHYS.ZS
+**      Metric 12. Nurses and midwives (per 1,000 people). SH.MED.NUMW.P3
+** DATASET: file06_worldbank.dta  
+** N=4,488 rows
+** COUNTRIES = 264 
+** LATIN AMERICA and CARIBBEAN COUNTRIES = 41
+**
+**
+**
+** e007_dataprep.do
+** ------------------------------------------------------------
+** FILE 7 - WHO Progress Monitor
+** ------------------------------------------------------------
+** Extracted manually from WHO reports (https://www.who.int/nmh/publications/ncd-progress-monitor-2017/en/)
+** Download Date: 8-JUN-2019
+** Data extracted from reports in 2015 and 2017
+** We have the following monitoring metrics:
+**      t1 "National NCD targets"	
+**      t2 "Mortality data"	
+**      t3 "Risk factor surveys"	
+**      t4 "National integrated NCD policy/strategy/action plan"
+**      t5a "increased excise taxes and prices"	
+**      t5b "smoke-free policies	"
+**      t5c "large graphic health warnings/plain packaging"	
+**      t5d "bans on advertising, promotion and sponsorship	"
+**      t5e "mass media campaigns	"
+**      t6a "restrictions on physical availability"	
+**      t6b "advertising bans or comprehensive restrictions	"
+**      t6c "increased excise taxes	"
+**      t7a "salt/sodium policies"	
+**      t7b "saturated fatty acids and trans-fats policies"	
+**      t7c "marketing to children restrictions"	
+**      t7d "marketing of breast-milk substitutes restrictions	"
+**      t8 "Public education and awareness campaign on physical activity"	
+**      t9 "Guidelines for management of cancer, CVD, diabetes and CRD"	
+**      t10 "Drug therapy/counselling to prevent heart attacks and strokes"
+** DATASET: file07_who_progress_monitor
+** N=48 rows
+** COUNTRIES = 48 
+** LATIN AMERICA and CARIBBEAN COUNTRIES = 48
+**
+**
+**
+** e008_dataprep.do
+** Reading WHO Death data for 2016, ready for Life Table test
+** ------------------------------------------------------------
+** FILE 7 - WHO Mortality Estimates
+** ------------------------------------------------------------
+** Disease burden and mortality estimates. CAUSE-SPECIFIC MORTALITY, 2000–2016
+** https://www.who.int/healthinfo/global_burden_disease/estimates/en/
+** Download Date: 6-JUN-2019
+** Input datasets:
+** COMPREHENSIVE ESTIMATES DATABASE
+**    GlobalCOD_method_2000_2016.pdf          Methods
+**    ghe2016_deaths_country_allages.zip      Deaths by country and age    
+**    ghe2016_deaths_country_btsx.zip         Deaths by country: women and men
+**    ghe2016_deaths_country_fmle.zip         Deaths by country: women
+**    ghe2016_deaths_country_mle.zip          Deaths by country: men
+**    ghe2016_deaths_region_allages.zip       Deaths by region and age
+**    ghe2016_deaths_region_btsx.zip          Deaths by region: women and men
+**    ghe2016_deaths_region_fmle.zip          Deaths by region: women
+**    ghe2016_deaths_region_mle.zip           Deaths by region: men
+** COUNTRIES = 50 
+** CARIBBEAN COUNTRIES          = 30
+** CENTRAL AMERICA COUNTRIES    = 6
+** LATIN AMERICA COUNTRIES      = 14
+** DATASETS: 
+**      file08_who_deaths_both_lac.dta
+**      file08_who_deaths_female_lac.dta
+**      file08_who_deaths_male_lac.dta
+**      file08_who_deaths_both_brb.dta
+**      file08_who_deaths_female_brb.dta
+**      file08_who_deaths_male_brb.dta
+**
+**
+**
+**
+** ------------------------------------------------------------
+** FILE 9 - UN POPULATION DATA - for entry into life tables 
+** ------------------------------------------------------------
+** Extracted manually from UN website (https://population.un.org/wpp/Download/Standard/Population//)
+** Download Date: 6-JUN-2019
+** Datasets: 
+**      WPP2017_POP_F15_1_ANNUAL_POPULATION_BY_AGE_BOTH_SEXES.xlsx
+**      WPP2017_POP_F15_2_ANNUAL_POPULATION_BY_AGE_MALE
+**      WPP2017_POP_F15_3_ANNUAL_POPULATION_BY_AGE_FEMALE
+**
+** DATASETS
+**      file09_un_population_both_brb
+**      file09_un_population_female_brb
+**      file09_un_population_male_brb
+**      file09_un_population_both_lac
+**      file09_un_population_female_lac
+**      file09_un_population_male_lac
+**
+**
+**
+** e101_analysis.do
+** ------------------------------------------------------------
+** TABLE 1 for paper
+** METRICS
+**      - Population
+**      - Percentage of world population
+**      - Number of NCD deaths
+**      - Percentage of world NCD deaths
+**      - 30q70 in 2016
+**      - 30q70 change since 2000
+** ------------------------------------------------------------
+** Initial construction of the publically available metrics
+** Input datasets
+**
+**
+**
+** e102_analysis.do
+** ------------------------------------------------------------
+** TABLE 1 for paper
+** METRICS
+**      - 30q70 in 2016
+**      - 30q70 change since 2000
+** ------------------------------------------------------------
+** Calculation of 30q70 from first principles
+** Input datasets:
+**      file 08 --> death information (age stratified)
+**      file 09 --> population information (age stratified)
+** 
+** THIS is the test DO file --> using Barbados as the test case
+** We calculate 30q70 for BOTH SEXES, WOMEN, MEN
+** And also calculate 30q70 for the lower and upper limits
+** Once we mimic all results, we move on to calculating FOR ALL countries in LAC
+** And calculating for the sub-regions

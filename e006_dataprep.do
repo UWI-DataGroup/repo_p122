@@ -1,10 +1,10 @@
 ** HEADER -----------------------------------------------------
 **  DO-FILE METADATA
-    //  algorithm name			    e006_dataprep.do
+    //  algorithm name			    e005_dataprep.do
     //  project:				    Premature Mortality in the Caribbean (2000-2016)
     //  analysts:				    Ian HAMBLETON
     // 	date last modified	    	6-JUN-2019
-    //  algorithm task			    Reading WHO Progress Monitor data (2015 and 2017)
+    //  algorithm task			    Reading World Bank GDP (etc) data
 
     ** General algorithm set-up
     version 15
@@ -21,109 +21,151 @@
 
     ** Close any open log file and open a new log file
     capture log close
-    log using "`logpath'\e006_dataprep", replace
+    log using "`logpath'\e005_dataprep", replace
 ** HEADER -----------------------------------------------------
 
 ** For SAP --> See e000_000.do
 
 ** ------------------------------------------------------------
-** FILE 6 - WHO Progress Monitor
+** FILE 6 - WORLD BANK VARIABLES
 ** ------------------------------------------------------------
-** Extracted manually from WHO reports (https://www.who.int/nmh/publications/ncd-progress-monitor-2017/en/)
+** Extracted from World Bank  (https://data.worldbank.org/indicator)
 ** Download Date: 8-JUN-2019
-import excel using "`datapath'/version01/1-input/NCD Progress monitor.xlsx", clear sheet("2017") cellrange(a2:ax25)
-sxpose, clear force
+** Importation via the -wbopendata- software package
 
-rename _var1 cid 
-rename _var2 totpop
-rename _var3 pmort 
-rename _var4 tmort
-rename _var5 pdeath
+** METRIC 1. GNI, Atlas method (current US$)
+** code: NY.GNP.ATLS.CD
+** web: https://data.worldbank.org/indicator/NY.GNP.ATLS.CD
+wbopendata, indicator(NY.GNP.ATLS.CD) clear long year(2000:2016)
+tempfile wb_metric01
+save `wb_metric01'
 
-rename _var6 t1 
-rename _var7 t2 
-rename _var8 t3 
-rename _var9 t4 
-rename _var10 t5a 
-rename _var11 t5b 
-rename _var12 t5c 
-rename _var13 t5d 
-rename _var14 t5e  
-rename _var15 t6a 
-rename _var16 t6b 
-rename _var17 t6c 
-rename _var18 t7a
-rename _var19 t7b 
-rename _var20 t7c 
-rename _var21 t7d 
-rename _var22 t8 
-rename _var23 t9 
-rename _var24 t10 
+** METRIC 2. GNI per capita, Atlas method (current US$)
+** code: NY.GNP.PCAP.CD
+** web: https://data.worldbank.org/indicator/NY.GNP.PCAP.CD
+wbopendata, indicator(NY.GNP.PCAP.CD) clear long year(2000:2016)
+tempfile wb_metric02
+save `wb_metric02'
 
-** Variable formatting
-drop if _n<=2
+** METRIC 3. Food production index (2004-2006 = 100)
+** code: AG.PRD.FOOD.XD
+** web: https://data.worldbank.org/indicator/AG.PRD.FOOD.XD
+wbopendata, indicator(AG.PRD.FOOD.XD) clear long year(2000:2016)
+tempfile wb_metric03
+save `wb_metric03'
 
-** Total country population 
-rename totpop temp1
-gen totpop  = real(temp1)
-drop temp1
-order totpop, after(cid)
+** METRIC 4. Surface area (squareed km)
+** code: AG.SRF.TOTL.K2
+** web: https://data.worldbank.org/indicator/AG.SRF.TOTL.K2
+wbopendata, indicator(AG.SRF.TOTL.K2) clear long year(2000:2016)
+tempfile wb_metric04
+save `wb_metric04'
 
-** % deaths from NCDs  
-rename pmort temp1
-gen pmort  = real(temp1)
-drop temp1
-order pmort, after(totpop)
+** METRIC 5. Agricultural land (% of land area)
+** code: AG.LND.AGRI.ZS
+** web: https://data.worldbank.org/indicator/AG.LND.AGRI.ZS
+wbopendata, indicator(AG.LND.AGRI.ZS) clear long year(2000:2016)
+tempfile wb_metric05
+save `wb_metric05'
 
-** Total # NCD deaths
-rename tmort temp1
-gen tmort  = real(temp1)
-drop temp1
-order tmort, after(pmort)
+** METRIC 6. Population density (people per sq. km of land area)
+** code: EN.POP.DNST
+** web: https://data.worldbank.org/indicator/EN.POP.DNST
+wbopendata, indicator(EN.POP.DNST) clear long year(2000:2016)
+tempfile wb_metric06
+save `wb_metric06'
 
-** Risk of premature death from NCD
-rename pdeath temp1
-gen pdeath = real(temp1)
-drop temp1
-order pdeath, after(tmort)
+** METRIC 7. Current health expenditure per capita (current US$)
+** code: SH.XPD.CHEX.PC.CD
+** web: https://data.worldbank.org/indicator/SH.XPD.CHEX.PC.CD
+wbopendata, indicator(SH.XPD.CHEX.PC.CD) clear long year(2000:2016)
+tempfile wb_metric07
+save `wb_metric07'
 
-** Targets (categorization)
-label define target_ 0 "not achieved" 1 "partially achieved" 2 "fully achieved" .a "DK" .b "NR"
+** METRIC 8.  Current health expenditure (% of GDP)
+** code: SH.XPD.CHEX.GD.ZS
+** web: https://data.worldbank.org/indicator/SH.XPD.CHEX.GD.ZS
+wbopendata, indicator(SH.XPD.CHEX.GD.ZS) clear long year(2000:2016)
+tempfile wb_metric08
+save `wb_metric08'
 
-foreach var in t1 t2 t3 t4 t5a t5b t5c t5d t5e t6a t6b t6c t7a t7b t7c t7d t8 t9 t10 {
-    replace `var' = ".a" if `var'=="DK"  
-    replace `var' = ".b" if `var'=="NR"  
-    rename `var' temp1
-    gen `var' = real(temp1)
-    drop temp1
-    label values `var' target_
-}
+** METRIC 9  .Out-of-pocket expenditure (% of current health expenditure)
+** code: SH.XPD.OOPC.CH.ZS
+** web: https://data.worldbank.org/indicator/SH.XPD.OOPC.CH.ZS
+wbopendata, indicator(SH.XPD.OOPC.CH.ZS) clear long year(2000:2016)
+tempfile wb_metric09
+save `wb_metric09'
 
-label var cid "Country ID: ISO-3166"
-label var totpop "Total country population"
-label var pmort "% deaths from NCDs"
-label var tmort "Total # NCD deaths"	
-label var pdeath "Risk of premature death from NCD"	
+** METRIC 10.  External health expenditure (% of current health expenditure)
+** code: SH.XPD.EHEX.CH.ZS
+** web: https://data.worldbank.org/indicator/SH.XPD.EHEX.CH.ZS
+wbopendata, indicator(SH.XPD.EHEX.CH.ZS) clear long year(2000:2016)
+tempfile wb_metric10
+save `wb_metric10'
 
-label var t1 "National NCD targets"	
-label var t2 "Mortality data"	
-label var t3 "Risk factor surveys"	
-label var t4 "National integrated NCD policy/strategy/action plan"
-label var t5a "increased excise taxes and prices"	
-label var t5b "smoke-free policies	"
-label var t5c "large graphic health warnings/plain packaging"	
-label var t5d "bans on advertising, promotion and sponsorship	"
-label var t5e "mass media campaigns	"
-label var t6a "restrictions on physical availability"	
-label var t6b "advertising bans or comprehensive restrictions	"
-label var t6c "increased excise taxes	"
-label var t7a "salt/sodium policies"	
-label var t7b "saturated fatty acids and trans-fats policies"	
-label var t7c "marketing to children restrictions"	
-label var t7d "marketing of breast-milk substitutes restrictions	"
-label var t8 "Public education and awareness campaign on physical activity"	
-label var t9 "Guidelines for management of cancer, CVD, diabetes and CRD"	
-label var t10 "Drug therapy/counselling to prevent heart attacks and strokes"
+** METRIC 11. Physicians (per 1,000 people) 
+** code: SH.MED.PHYS.ZS
+** web: https://data.worldbank.org/indicator/SH.MED.PHYS.ZS
+wbopendata, indicator(SH.MED.PHYS.ZS) clear long year(2000:2016)
+tempfile wb_metric11
+save `wb_metric11'
 
-label data "WHO Progress monitor data"
-save "`datapath'/version01/2-working/file07_who_progress_monitor", replace
+** METRIC 12. Nurses and midwives (per 1,000 people) 
+** code: SH.MED.NUMW.P3
+** web: https://data.worldbank.org/indicator/SH.MED.NUMW.P3
+wbopendata, indicator(SH.MED.NUMW.P3) clear long year(2000:2016)
+tempfile wb_metric12
+save `wb_metric12'
+
+** Joining the 12 files
+use `wb_metric01', clear
+merge m:m countrycode using `wb_metric02'
+drop _merge 
+merge m:m countrycode using `wb_metric03'
+drop _merge 
+merge m:m countrycode using `wb_metric04'
+drop _merge 
+merge m:m countrycode using `wb_metric05'
+drop _merge 
+merge m:m countrycode using `wb_metric06'
+drop _merge 
+merge m:m countrycode using `wb_metric07'
+drop _merge 
+merge m:m countrycode using `wb_metric08'
+drop _merge 
+merge m:m countrycode using `wb_metric09'
+drop _merge 
+merge m:m countrycode using `wb_metric10'
+drop _merge 
+merge m:m countrycode using `wb_metric11'
+drop _merge 
+merge m:m countrycode using `wb_metric12'
+drop _merge 
+
+rename ny_gnp_atls_cd gni 
+rename ny_gnp_pcap_cd gni_pc 
+rename ag_prd_food_xd fpi
+rename ag_srf_totl_k2 land
+rename ag_lnd_agri_zs land_agri
+rename en_pop_dnst pop_den
+rename sh_xpd_chex_pc_cd chexp_pc
+rename sh_xpd_chex_gd_zs chexp  
+rename sh_xpd_oopc_ch_zs oopexp 
+rename sh_xpd_ehex_ch_zs extexp
+rename sh_med_phys_zs phys 
+rename sh_med_numw_p3 nurse
+label var gni "METRIC 1. GNI, Atlas method (current US$)"
+label var gni_pc "METRIC 2. GNI per capita, Atlas method (current US$)"
+label var fpi "METRIC 3. Food production index (2004-2006 = 100)"
+label var land "METRIC 4. Surface area (squareed km)"
+label var land_agri "METRIC 5. Agricultural land (% of land area)"
+label var pop_den "METRIC 6. Population density (people per sq. km of land area)"
+label var chexp_pc "METRIC 7. Current health expenditure per capita (current US$)"
+label var chexp "METRIC 8.  Current health expenditure (% of GDP)"
+label var oopexp "METRIC 9  .Out-of-pocket expenditure (% of current health expenditure)"
+label var extexp "METRIC 10.  External health expenditure (% of current health expenditure)"
+label var phys "METRIC 11. Physicians (per 1,000 people) "
+label var nurse "METRIC 12. Nurses and midwives (per 1,000 people) "
+
+label data "Various data indicators from - from World Bank Open Data"
+save "`datapath'/version01/2-working/file06_worldbank", replace

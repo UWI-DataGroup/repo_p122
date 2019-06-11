@@ -1,10 +1,10 @@
 ** HEADER -----------------------------------------------------
 **  DO-FILE METADATA
-    //  algorithm name			    e004_dataprep.do
+    //  algorithm name			    e003_dataprep.do
     //  project:				    Premature Mortality in the Caribbean (2000-2016)
     //  analysts:				    Ian HAMBLETON
     // 	date last modified	    	6-JUN-2019
-    //  algorithm task			    Reading the FAO land use dataset
+    //  algorithm task			    Reading the UN WPP population file
 
     ** General algorithm set-up
     version 15
@@ -21,7 +21,7 @@
 
     ** Close any open log file and open a new log file
     capture log close
-    log using "`logpath'\e004_dataprep", replace
+    log using "`logpath'\e003_dataprep", replace
 ** HEADER -----------------------------------------------------
 
 ** For SAP --> See e000_000.do
@@ -29,122 +29,56 @@
 ** DATA PREPARATION OF COUNTRY POPULATION (2000 to 2015)
 
 ** ------------------------------------------------------------
-** FILE 5 - LAND USE
+** FILE 4 - POPULATION
 ** ------------------------------------------------------------
-** Extracted from FAO STAT (http://www.fao.org/faostat/en/?#data/RL)
+** Extracted from UN World Population Prospects (https://population.un.org/wpp/Download/Standard/Population/)
 ** Download Date: 8-JUN-2019
-** Inputs_LandUse_E_All_Data_(Normalized).xlsx
-import excel using "`datapath'/version01/1-input/Inputs_LandUse_E_All_Data_(Normalized).xlsx", first
+import excel "`datapath'/version01/1-input/WPP2017_POP_F01_1_TOTAL_POPULATION_BOTH_SEXES.xlsx", clear sheet("ESTIMATES") cellrange(a18:bs290)
 
-** Keep selected metrics (6601=LandArea, 6602=Agriculture)
-keep if ItemCode==6601 | ItemCode==6602
-rename ItemCode metric
-label var metric "Metric type"
-labmask metric, values(Item)
-drop Item
-order metric
+drop A B D  
 
-rename AreaCode cid
-label var cid "Country ID"
-labmask cid, values(Area)
-order cid, before(metric)
+** Country and region text" 
+rename C un_country
+label var un_country "UN country / region names"
 
-rename Year year
-label var year "Year of metric estimate"
-order year, after(metric)
+** Country and region UN id 
+rename E unid 
+label var unid "UN unique id for countries and regions" 
 
-rename Value value
-label var value "Metric value"
-order value, after(year)
-rename Unit unit
-order unit, after(value)
-drop Element ElementCode YearCode
+** Population values in years (1950 to 2015) 
+local k = 1950 
+foreach var in F G H I J K L M N O P Q R S T U V W X Y Z AA AB AC AD AE AF AG AH AI AJ AK AL AM AN AO AP AQ AR AS AT AU AV AW AX AY AZ BA BB BC BD BE BF BG BH BI BJ BK BL BM BN BO BP BQ BR BS {
+    rename `var' p`k'
+    local k = `k' + 1
+} 
+tempfile pop_1950to2015
+save `pop_1950to2015', replace 
 
-** Keep selected countries and regions
 
-** Caribbean (5206)
-** 5206	Caribbean	258	Anguilla
-** 5206	Caribbean	8	Antigua and Barbuda
-** 5206	Caribbean	22	Aruba
-** 5206	Caribbean	12	Bahamas
-** 5206	Caribbean	14	Barbados
-** 5206	Caribbean	239	British Virgin Islands
-** 5206	Caribbean	36	Cayman Islands
-** 5206	Caribbean	49	Cuba
-** 5206	Caribbean	279	CuraÃ§ao
-** 5206	Caribbean	55	Dominica
-** 5206	Caribbean	56	Dominican Republic
-** 5206	Caribbean	86	Grenada
-** 5206	Caribbean	87	Guadeloupe
-** 5206	Caribbean   69	French Guiana
-** 5206	Caribbean	93	Haiti
-** 5206	Caribbean	109	Jamaica
-** 5206	Caribbean	135	Martinique
-** 5206	Caribbean	142	Montserrat
-** 5206	Caribbean	151	Netherlands Antilles (former)
-** 5206	Caribbean	177	Puerto Rico
-** 5206	Caribbean	188	Saint Kitts and Nevis
-** 5206	Caribbean	189	Saint Lucia
-** 5206	Caribbean	191	Saint Vincent and the Grenadines
-** 5206	Caribbean	281	Saint-Martin (French Part)
-** 5206	Caribbean	280	Sint Maarten (Dutch Part)
-** 5206 Caribbean   207 Suriname
-** 5206	Caribbean	220	Trinidad and Tobago
-** 5206	Caribbean	224	Turks and Caicos Islands
-** 5206	Caribbean	240	United States Virgin Islands
-gen rid = .
-#delimit ;
-    replace rid = 1 if  cid==258 | cid==8  |
-                        cid==22  | cid==12 |
-                        cid==14  | cid==239|
-                        cid==36  | cid==49 |
-                        cid==279 | cid==55 |
-                        cid==56  | cid==69 |
-                        cid==86  |
-                        cid==87  | cid==93 |
-                        cid==109 | cid==135|
-                        cid==142 | cid==151|
-                        cid==177 | cid==188 |
-                        cid==189 | cid==191 |
-                        cid==281 | cid==280 |
-                        cid==220 | cid==224 |
-                        cid==240 | cid==207;
-#delimit cr
-order rid, after(cid)
+** Population estimate for 2016
+import excel "`datapath'/version01/1-input/WPP2017_POP_F01_1_TOTAL_POPULATION_BOTH_SEXES.xlsx", clear sheet("MEDIUM VARIANT") cellrange(a18:cm290)
+drop A B D  
+** Country and region text" 
+rename C un_country
+label var un_country "UN country / region names"
+** Country and region UN id 
+rename E unid 
+label var unid "UN unieuq id for countries and regions" 
+drop L-CM
+** Population values in years (1950 to 2015) 
+local k = 2015
+foreach var in F G H I J K {
+    rename `var' p`k'
+    local k = `k' + 1
+} 
+drop p2015 
+tempfile pop_2016to2020
+save `pop_2016to2020', replace 
 
-** Latin America (XXXX)
-** XXXX	Latin America	9	Argentina
-** XXXX	Latin America	19	Bolivia
-** XXXX	Latin America	21	Brazil
-** XXXX	Latin America	40	Chile
-** XXXX	Latin America	44	Colombia
-** XXXX	Latin America	48	Costa Rica
-** XXXX	Latin America	58	Ecuador
-** XXXX	Latin America	60	El Salvador
-** XXXX	Latin America	89	Guatemala
-** XXXX	Latin America	95	Honduras
-** XXXX	Latin America	138	Mexico
-** XXXX	Latin America	157	Nicaragua
-** XXXX	Latin America	166	Panama
-** XXXX	Latin America	169	Paraguay
-** XXXX	Latin America	170	Peru
-** XXXX	Latin America	234	Uruguay
-** XXXX	Latin America	236	Venezuela
-#delimit ;
-    replace rid = 2 if  cid==9   | cid==19  |
-                        cid==21  | cid==40  | 
-                        cid==44  | cid==48  | 
-                        cid==58  | cid==60  | 
-                        cid==89  | cid==95  | 
-                        cid==138 | cid==157 | 
-                        cid==166 | cid==169 |
-                        cid==170 | cid==234 |
-                        cid==236 ;
-#delimit cr
-order rid, after(cid)
-label var rid "Region code"
-label define rid_ 1 "caribbean" 2 "latin america"
-label values rid rid_
-keep if rid==1 | rid==2
-label data "Country and region land use data - from FAOSTAT (Oct-2018)"
-save "`datapath'/version01/2-working/file05_landuse", replace
+** Merge 2016-2021 into 1950-2015 
+use `pop_1950to2015', clear 
+merge 1:1 unid using  `pop_2016to2020'
+drop _merge 
+
+save "`datapath'/version01/2-working/file04_population_both.dta", replace
+

@@ -1,10 +1,10 @@
 ** HEADER -----------------------------------------------------
 **  DO-FILE METADATA
-    //  algorithm name			    e003_dataprep.do
+    //  algorithm name			    e002_dataprep.do
     //  project:				    Premature Mortality in the Caribbean (2000-2016)
     //  analysts:				    Ian HAMBLETON
     // 	date last modified	    	6-JUN-2019
-    //  algorithm task			    Reading the UN WPP population file
+    //  algorithm task			    Reading the Country CodesWHO premature mortality dataset
 
     ** General algorithm set-up
     version 15
@@ -21,64 +21,83 @@
 
     ** Close any open log file and open a new log file
     capture log close
-    log using "`logpath'\e003_dataprep", replace
+    log using "`logpath'\e002_dataprep", replace
 ** HEADER -----------------------------------------------------
 
 ** For SAP --> See e000_000.do
 
-** DATA PREPARATION OF COUNTRY POPULATION (2000 to 2015)
-
 ** ------------------------------------------------------------
-** FILE 4 - POPULATION
+** FILE 3 - COUNTRY CODES
 ** ------------------------------------------------------------
-** Extracted from UN World Population Prospects (https://population.un.org/wpp/Download/Standard/Population/)
-** Download Date: 8-JUN-2019
-import excel "`datapath'/version01/1-input/WPP2017_POP_F01_1_TOTAL_POPULATION_BOTH_SEXES.xlsx", clear sheet("ESTIMATES") cellrange(a18:bs290)
+** Extracted from WHO Observatory (https://apps.who.int/gho/data/view.main.2485)
+** Download Date: 6-JUN-2019
+import excel "`datapath'/version01/1-input/NCDMORT3070.xlsx", clear sheet("Country") first
+keep Code DisplayValue MORT WorldBankincomegroup
 
-drop A B D  
+** Country ISO Code and name
+** ISO codes are 3-digit alphanumeric codes unique to a country - there are no codes for world or region 
+rename Code cid 
+label var cid "ISO-3166 country codes"
+order cid
 
-** Country and region text" 
-rename C un_country
-label var un_country "UN country / region names"
+** Country name 
+rename DisplayValue country 
+label var country "Country name" 
+order country, after(cid)
 
-** Country and region UN id 
-rename E unid 
-label var unid "UN unieuq id for countries and regions" 
+** MORT - 4 digit coding to link with mortality database (I recall)
+gen mid = real(MORT) 
+label var mid "Mortality database country ID: 4-digit numeric code"
+order mid, after(cid)
+drop MORT 
 
-** Population values in years (1950 to 2015) 
-local k = 1950 
-foreach var in F G H I J K L M N O P Q R S T U V W X Y Z AA AB AC AD AE AF AG AH AI AJ AK AL AM AN AO AP AQ AR AS AT AU AV AW AX AY AZ BA BB BC BD BE BF BG BH BI BJ BK BL BM BN BO BP BQ BR BS {
-    rename `var' p`k'
-    local k = `k' + 1
-} 
-tempfile pop_1950to2015
-save `pop_1950to2015', replace 
+** World Bank grouping from 2017 
+gen wbg = .
+replace wbg = 1 if WorldBankincomegroup == "Low income"
+replace wbg = 2 if WorldBankincomegroup == "Lower middle income"
+replace wbg = 3 if WorldBankincomegroup == "Upper middle income"
+replace wbg = 4 if WorldBankincomegroup == "High income"
+label define wbg_ 1 "wb_li" 2 "wb_lmi" 3 "wb_umi" 4 "wb_hi", modify 
+label values wbg wbg_ 
+label var wbg "World Bank income groups"
+order wbg, after(mid) 
+drop  WorldBankincomegroup
+tempfile country_id
+save `country_id', replace 
 
+** NEXT, we add in 2-digit numeric codes, used by UN datasets
+** Which allows me to join population data from UN WPP
+import excel "`datapath'/version01/1-input/wikipedia-iso-country-codes.xlsx", clear sheet("wikipedia-iso-country-codes") first
+drop  Alpha2code ISO31662
+rename  Alpha3code cid 
+rename  Numericcode unid 
+label var unid "UN WPP country ID"
+merge 1:1 cid using `country_id' 
+keep if _merge==3 
+drop _merge 
+tempfile country_id2
+save `country_id2', replace 
 
-** Population estimate for 2016
-import excel "`datapath'/version01/1-input/WPP2017_POP_F01_1_TOTAL_POPULATION_BOTH_SEXES.xlsx", clear sheet("MEDIUM VARIANT") cellrange(a18:cm290)
-drop A B D  
-** Country and region text" 
-rename C un_country
-label var un_country "UN country / region names"
-** Country and region UN id 
-rename E unid 
-label var unid "UN unieuq id for countries and regions" 
-drop L-CM
-** Population values in years (1950 to 2015) 
-local k = 2015
-foreach var in F G H I J K {
-    rename `var' p`k'
-    local k = `k' + 1
-} 
-drop p2015 
-tempfile pop_2016to2020
-save `pop_2016to2020', replace 
-
-** Merge 2016-2021 into 1950-2015 
-use `pop_1950to2015', clear 
-merge 1:1 unid using  `pop_2016to2020'
+** NEXT, we add in country codes used by FAO datasets (!) 
+** Which allows me to join FAO data
+import excel "`datapath'/version01/1-input/country_code_linkage.xlsx", clear sheet("Sheet1") first
+drop  shortname officialname iso2 unid undpid gaul
+rename iso3 cid 
+label var faoid "FAOSTAT country ID"
+merge 1:1 cid using `country_id2' 
+keep if _merge==3 
 drop _merge 
 
-save "`datapath'/version01/2-working/file04_population.dta", replace
+** Save the analysis dataset 
+save "`datapath'/version01/2-working/file03_country.dta", replace
 
+
+/*
+** ------------------------------------------------------------
+** FILE 3 - COUNTRY and PREMATURE MORTALITY FROM NCDs (30q70)
+** ------------------------------------------------------------
+** Joining COUNTRY and PREMATURE MORTAITY files
+merge 1:m cid using "`datapath'/version01/2-working/file02_pmort2000_2016.dta"
+sort cid sex year 
+drop _merge
+save "`datapath'/version01/2-working/file02_file03.dta", replace
