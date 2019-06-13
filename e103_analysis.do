@@ -32,7 +32,6 @@
 
 ** We are first interested in 30q70 in 2000 and 2016
 use "`datapath'/version01/2-working/file100_q3070_lac.dta", clear
-
 ** Caribbean
 tabdisp iso3 year if (year==2000 | year==2016) & rid==1 & sex==3, c(q3070) format(%9.1f)
 ** Central America
@@ -41,13 +40,81 @@ tabdisp iso3 year if (year==2000 | year==2016) & rid==2 & sex==3, c(q3070) forma
 tabdisp iso3 year if (year==2000 | year==2016) & rid==3 & sex==3, c(q3070) format(%9.1f)
 ** North America
 tabdisp iso3 year if (year==2000 | year==2016) & rid==4 & sex==3, c(q3070) format(%9.1f)
-
-** Regional estimates
-use "`datapath'/version01/2-working/file100_q3070_region.dta", clear 
-label define rid_ 1 "caribbean" 2 "c america" 3 "s america" 4 "n america"
-label values rid rid_ 
-
-** LAC
-use "`datapath'/version01/2-working/file100_q3070_region2.dta", clear
+** LAC REGION + various sub-region variants
+use "`datapath'/version01/2-working/file100_q3070_region_various.dta", clear
 tabdisp rid year if (year==2000 | year==2016) & sex==3, c(q3070) format(%9.1f)
-                                                                                                             
+
+
+** Population (+ various sub-regional variants)
+**use "`datapath'/version01/2-working/file09_un_pop_lac", clear
+use "`datapath'/version01/2-working/file101_pop_country.dta", clear
+label define rid_ 1 "caribbean" 2 "central am" 3 "south am" 4 "north am" 5 "LAC w/ NA" 6 "CA + SA" 7 "CA w/ MEX" 8 "LAC", modify 
+label values rid rid_ 
+keep if year==2016 & sex==3
+** Country populations
+collapse (sum) pop2 dths low upp , by(rid iso3 unid)
+** Format population to be per 1000 remove Engineering format
+gen pop1000 = pop2/1000
+format pop2 %12.0fc
+
+** Population for each of the THREE sub-regions
+** Individual sub-regions 
+preserve
+    collapse (sum) pop2 , by(rid)
+    tabdisp rid , c(pop2) format(%9.0fc)
+restore
+** CA and SA combined
+preserve
+    recode rid 2 3 = 6
+    collapse (sum) pop2 , by(rid)
+    tabdisp rid , c(pop2) format(%9.0fc)
+restore
+** CA, SA, CAR combined
+preserve
+    recode rid 1 2 3 = 8
+    collapse (sum) pop2 , by(rid)
+    tabdisp rid , c(pop2) format(%9.0fc)
+restore
+
+** Number of premature deaths by country
+use "`datapath'/version01/2-working/file101_pop_country.dta", clear
+preserve
+    keep if age18>=30 & age18<=65
+    keep if year==2016 & sex==3
+    collapse (sum) pop2 dths low upp , by(rid iso3 unid)
+    ** Caribbean 
+    tabdisp iso3 if rid==1, c(dths) format(%9.1f)
+    tabdisp iso3 if rid==2 | rid==3, c(dths) format(%9.1f)
+restore
+
+** Premature deaths in Caribbean
+preserve
+    keep if age18>=30 & age18<=65
+    keep if year==2016 & sex==3
+    keep if rid == 1
+    collapse (sum) pop2 dths low upp , by(rid)
+    ** Caribbean 
+    tabdisp rid if rid==1, c(dths) format(%9.1f)
+restore
+
+** Premature deaths in CA + SA
+preserve
+    keep if age18>=30 & age18<=65
+    keep if year==2016 & sex==3
+    keep if rid == 2 | rid==3
+    recode rid 3=2
+    collapse (sum) pop2 dths low upp , by(rid)
+    ** Caribbean 
+    tabdisp rid if rid==2, c(dths) format(%9.1f)
+restore
+
+** Premature deaths in CAR + CA + SA
+preserve
+    keep if age18>=30 & age18<=65
+    keep if year==2016 & sex==3
+    keep if rid==1 | rid == 2 | rid==3
+    recode rid 1 2 3 = 2
+    collapse (sum) pop2 dths low upp , by(rid)
+    ** Caribbean 
+    tabdisp rid if rid==2, c(dths) format(%9.1f)
+restore

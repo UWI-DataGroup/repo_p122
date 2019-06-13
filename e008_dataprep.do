@@ -25,7 +25,7 @@
 ** HEADER -----------------------------------------------------
 
 ** For SAP --> See e000_000.do
-
+/*
 ** GRAB ISO-3 CODES for LAC countries
 import delimited using "`datapath'/version01/1-input/ghe2016_deaths_country_btsx.csv", clear
 
@@ -217,3 +217,58 @@ drop t1
 label data "WHO Death Data: Female, Male, Both Sexes for BRB"
 save "`datapath'/version01/2-working/file08_who_deaths_brb", replace
 
+
+
+
+
+*/
+
+
+** The world 
+** Number of premature deaths
+import excel using  "`datapath'/version01/1-input/ghe2016_deaths_region_btsx.xlsx", clear first sheet("ghe2016_deaths_region_btsx")
+keep if regtype=="world"
+#delimit ;
+    keep if cause2015==0    |
+            cause2015==600  |
+            cause2015==610  |
+            cause2015==800  |
+            cause2015==810  |
+            cause2015==1100 |
+            cause2015==1110 |
+            cause2015==1120 |
+            cause2015==1130 |
+            cause2015==1140 |
+            cause2015==1141 |
+            cause2015==1142 |
+            cause2015==1150 |
+            cause2015==1160 |
+            cause2015==1170 |
+            cause2015==1180 |
+            cause2015==1190 |
+            cause2015==1200;
+#delimit cr 
+
+** Cause of death group 
+labmask cause2015, values(causename)
+label var cause2015 "Cause of death grouping"
+order cause2015
+
+** Sex
+label var sex "Sex: Women, Men, Both"
+
+** Age
+labmask age, values(agegroup)
+rename age age20 
+label var age20 "Age group: 20 age groups incl. infants"
+order age20, after(sex)
+gen age18 = age20 
+recode age18 0 1 = 2
+order age18, after(age20)
+label var age18 "Age group: 18 five-year age groups "
+
+keep cause2015 causename sex age18 age20 agegroup dths* low* upp* 
+keep if age18>=30 & age18 <=65
+keep if cause2015==610 | cause2015==800 | cause2015==1100 | cause2015==1170
+
+collapse (sum) dths2016 low2016 upp2016, by(sex) 
