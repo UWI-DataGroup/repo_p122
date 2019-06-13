@@ -276,7 +276,7 @@ set linesize 200
 ** e008_dataprep.do
 ** Reading WHO Death data for 2016, ready for Life Table test
 ** ------------------------------------------------------------
-** FILE 7 - WHO Mortality Estimates
+** FILE 8 - WHO Mortality Estimates
 ** ------------------------------------------------------------
 ** Disease burden and mortality estimates. CAUSE-SPECIFIC MORTALITY, 2000–2016
 ** https://www.who.int/healthinfo/global_burden_disease/estimates/en/
@@ -327,23 +327,15 @@ set linesize 200
 **
 **
 **
-** e101_analysis.do
+** e101_analysis.do 
 ** ------------------------------------------------------------
-** TABLE 1 for paper
-** METRICS
-**      - Population
-**      - Percentage of world population
-**      - Number of NCD deaths
-**      - Percentage of world NCD deaths
-**      - 30q70 in 2016
-**      - 30q70 change since 2000
+** NOT CURRENTLY USED
 ** ------------------------------------------------------------
-** Initial construction of the publically available metrics
-** Input datasets
 **
 **
 **
-** e102_analysis.do
+**
+** e102_analysis.do / e102_analysis_region.do
 ** ------------------------------------------------------------
 ** TABLE 1 for paper
 ** METRICS
@@ -355,8 +347,80 @@ set linesize 200
 **      file 08 --> death information (age stratified)
 **      file 09 --> population information (age stratified)
 ** 
-** THIS is the test DO file --> using Barbados as the test case
 ** We calculate 30q70 for BOTH SEXES, WOMEN, MEN
-** And also calculate 30q70 for the lower and upper limits
-** Once we mimic all results, we move on to calculating FOR ALL countries in LAC
-** And calculating for the sub-regions
+** We calculate 30q70 for all LAC countries and years (2000 to 2016) 
+** and for various combinations of LAC sub-regions.
+** 
+** We use a looping structure to calculate 30q70 for all combinations
+** SEX (x3), YEAR (x17), COUNTRY (x30) = 1,530 values
+** These calculations are split into sub-regions as follows:
+**
+** N.America: "USA CAN MEX"
+** S.America: "ARG BOL BRA CHL COL ECU PER PRY URY VEN"
+** C.America: "CRI GTM HND NIC PAN SLV "
+** Caribbean: "ATG BHS BLZ BRB CUB DOM GRD GUY HTI JAM LCA SUR TTO VCT"
+**
+** We 'post' all results to an output dataset:
+** COUNTRY DATASET: file100_q3070_lac.dta
+** 
+** For the sub-regions, we create several alternative groupings:
+** Caribbean
+** C. America
+** S. America
+** N. America (incl. Mexico)
+** CA and SA combined
+** CA with Mexico
+** LAC without NA
+** SUB-REGION DATASET: file100_q3070_region_various.dta 
+**
+**
+**
+**
+** e103_analysis.do
+** ------------------------------------------------------------
+** TABLE 1 for paper
+** METRICS
+**      - 30q70 in 2000 and 2016
+**      - 30q70 relative change since 2000 (relative to 2016)
+**      - Population size (countries and sub-regions)
+**      - Number of premature deaths (countries and sub-regions)
+** ------------------------------------------------------------
+**
+**
+**
+**
+** e104_analysis.do
+** ------------------------------------------------------------
+** TABLE 1 for paper
+** METRICS
+**      - Average Annual Change in 30q70 between 2000 and 2016
+** ------------------------------------------------------------
+**
+** This is calculated as the regression slope, taking into account
+** all 30q70 values in the time period.
+**
+** NOT PRESENTED IN TABLE 1 for now.
+**
+**
+**
+**
+** e105_analysis.do
+** ------------------------------------------------------------
+** FIGURES. 
+**
+** FIGURE 1. 
+** EquiPlot of 30q70
+** Stratified by Sex, Year (2000, 2004, 2008, 2012, 2016)
+** and sub-region (Caribbean, CA+SA)
+** Plots regional average, lowest 30q70 value, highest 30q70 value
+**
+** FIGURE 2. 
+** Line chart
+** 30q70 change between 2000 and 2016
+** Plotted by SEX, and by sub-region (Caribbean, CA+SA) 
+**      
+** FIGURE 3.
+** Scatterplot.
+** 30q70 in 2016 against 30q70 in 2000
+** Plotted for all individual countries
+** ------------------------------------------------------------
