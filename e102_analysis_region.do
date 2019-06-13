@@ -205,13 +205,13 @@ replace rid = 4 if iso3=="CAN" | iso3=="MEX" | iso3=="USA"
 
 ** Save dataset for use in Table 1 calculations of population size 
 save "`datapath'/version01/2-working/file101_pop_country.dta", replace 
-/*
+
 ** Collpase finaly to region-level dataset
 collapse (sum) dths low upp pop2, by(rid year sex age18 span2)  
 
 ** Dataset for entry to life table loop
 save `lt_entry', replace
-/*
+
 ** LAC --> 4 subregions
 tempname post_q3070_lac
 postfile `post_q3070_lac' rid year sex q3070 using "`datapath'/version01/2-working/file100_q3070_region.dta", replace
