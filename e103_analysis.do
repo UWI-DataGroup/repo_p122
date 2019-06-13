@@ -4,7 +4,7 @@
     //  project:				    Premature Mortality in the Caribbean (2000-2016)
     //  analysts:				    Ian HAMBLETON
     // 	date last modified	    	6-JUN-2019
-    //  algorithm task			    30q70 from Life Table Analysis (2000 to 2016)
+    //  algorithm task			    Table 1 Statistics
 
     ** General algorithm set-up
     version 15

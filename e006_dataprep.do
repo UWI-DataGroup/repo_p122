@@ -117,6 +117,16 @@ wbopendata, indicator(SH.MED.NUMW.P3) clear long year(2000:2016)
 tempfile wb_metric12
 save `wb_metric12'
 
+** METRIC 13. GNI Growth (annual %) 
+** code: NY.GNP.MKTP.KD.ZG
+** web: https://data.worldbank.org/indicator/NY.GNP.MKTP.KD.ZG
+wbopendata, indicator(NY.GNP.MKTP.KD.ZG) clear long year(2000:2016)
+tempfile wb_metric13
+save `wb_metric13'
+
+
+
+
 ** Joining the 12 files
 use `wb_metric01', clear
 merge m:m countrycode using `wb_metric02'
@@ -141,6 +151,8 @@ merge m:m countrycode using `wb_metric11'
 drop _merge 
 merge m:m countrycode using `wb_metric12'
 drop _merge 
+merge m:m countrycode using `wb_metric13'
+drop _merge
 
 rename ny_gnp_atls_cd gni 
 rename ny_gnp_pcap_cd gni_pc 
@@ -154,6 +166,8 @@ rename sh_xpd_oopc_ch_zs oopexp
 rename sh_xpd_ehex_ch_zs extexp
 rename sh_med_phys_zs phys 
 rename sh_med_numw_p3 nurse
+rename ny_gnp_mktp_kd_zg gni_growth
+
 label var gni "METRIC 1. GNI, Atlas method (current US$)"
 label var gni_pc "METRIC 2. GNI per capita, Atlas method (current US$)"
 label var fpi "METRIC 3. Food production index (2004-2006 = 100)"
@@ -166,6 +180,7 @@ label var oopexp "METRIC 9  .Out-of-pocket expenditure (% of current health expe
 label var extexp "METRIC 10.  External health expenditure (% of current health expenditure)"
 label var phys "METRIC 11. Physicians (per 1,000 people) "
 label var nurse "METRIC 12. Nurses and midwives (per 1,000 people) "
+label var gni_growth "Annual GNI growth rate (%)"
 
 label data "Various data indicators from - from World Bank Open Data"
 save "`datapath'/version01/2-working/file06_worldbank", replace

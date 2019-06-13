@@ -1,10 +1,10 @@
 ** HEADER -----------------------------------------------------
 **  DO-FILE METADATA
-    //  algorithm name			    e103_analysis.do
+    //  algorithm name			    e105_analysis.do
     //  project:				    Premature Mortality in the Caribbean (2000-2016)
     //  analysts:				    Ian HAMBLETON
     // 	date last modified	    	6-JUN-2019
-    //  algorithm task			    30q70 from Life Table Analysis (2000 to 2016)
+    //  algorithm task			    30q70 Graphics (2000 to 2016)
 
     ** General algorithm set-up
     version 15
@@ -21,11 +21,11 @@
 
     ** Close any open log file and open a new log file
     capture log close
-    log using "`logpath'\e103_analysis", replace
+    log using "`logpath'\e105_analysis", replace
 ** HEADER -----------------------------------------------------
 
 ** For SAP --> See e000_000.do
-/*
+
 ** -----------------------------------------------------
 ** FIGURE 1. EQUIPLOT OF COUNTRY AND REGIONAL 30q70 
 ** -----------------------------------------------------
@@ -148,7 +148,7 @@ order yax
 #delimit cr
 
 
-*/
+
 
 ** -----------------------------------------------------
 ** FIGURE 2
@@ -204,7 +204,7 @@ keep if rid==1 | rid==6
 #delimit cr
 
 
-
+/*
 
 
 ** -----------------------------------------------------

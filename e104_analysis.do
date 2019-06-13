@@ -1,10 +1,10 @@
 ** HEADER -----------------------------------------------------
 **  DO-FILE METADATA
-    //  algorithm name			    e103_analysis.do
+    //  algorithm name			    e104_analysis.do
     //  project:				    Premature Mortality in the Caribbean (2000-2016)
     //  analysts:				    Ian HAMBLETON
     // 	date last modified	    	6-JUN-2019
-    //  algorithm task			    30q70 from Life Table Analysis (2000 to 2016)
+    //  algorithm task			    Average Annual Change in 30q70 between 2000 and 2016
 
     ** General algorithm set-up
     version 15
@@ -21,7 +21,7 @@
 
     ** Close any open log file and open a new log file
     capture log close
-    log using "`logpath'\e103_analysis", replace
+    log using "`logpath'\e104_analysis", replace
 ** HEADER -----------------------------------------------------
 
 ** For SAP --> See e000_000.do
@@ -29,8 +29,7 @@ use "`datapath'/version01/2-working/file100_q3070_lac.dta", clear
 keep if sex==3
 keep if iso3=="GTM"
 
-** TABLE 1.
-** Last column. Average annual change between 2000 and 2016
+** Average annual change between 2000 and 2016
 ** Load up the 30q70 dataset (with data from between 2000 and 2016)
 local nam "USA CAN MEX"
 local sa  "ARG BOL BRA CHL COL ECU PER PRY URY VEN"

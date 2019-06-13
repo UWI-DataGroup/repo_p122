@@ -4,7 +4,7 @@
     //  project:				    Premature Mortality in the Caribbean (2000-2016)
     //  analysts:				    Ian HAMBLETON
     // 	date last modified	    	6-JUN-2019
-    //  algorithm task			    Testing the Life Table process using BRB death dataseet (2016)
+    //  algorithm task			    Life Table calculations (country-level)
 
     ** General algorithm set-up
     version 15
@@ -175,6 +175,14 @@ keep if cause2015==610 | cause2015==800 | cause2015==1100 | cause2015==1170
 collapse (sum) dths low upp (mean) pop2=pop span2=span, by(iso3 unid year sex age18)
 
 ** Dataset for entry to life table loop
+preserve
+    collapse (sum) w_pop=pop w_dths=dths, by(unid year sex)
+    keep unid year sex w_pop w_dths
+    tempfile weights
+    save `weights', replace
+restore    
+merge m:1 unid year sex using `weights'
+drop _merge 
 tempfile lt_entry
 save `lt_entry', replace
 
@@ -194,17 +202,18 @@ local nam "USA CAN MEX"
 local sa  "ARG BOL BRA CHL COL ECU PER PRY URY VEN"
 local ca  "CRI GTM HND NIC PAN SLV "
 local car  "ATG BHS BLZ BRB CUB DOM GRD GUY HTI JAM LCA SUR TTO VCT"
+local brb  "BRB"
 
 ** Caribbean 
 tempname post_q3070_car
-postfile `post_q3070_car' rid str3 iso3 unid year sex q3070 using "`datapath'/version01/2-working/file100_q3070_car.dta", replace
+postfile `post_q3070_car' rid str3 iso3 unid year sex q3070 w_pop w_dths using "`datapath'/version01/2-working/file100_q3070_car.dta", replace
 foreach a of local car {
     forval b = 2000(1)2016 {
         forval c = 1(1)3 { 
             use `lt_entry', clear
             keep if iso3=="`a'" & year==`b' & sex==`c' 
-            lifetabl, strata(age18) deaths(dths) pop(pop) ny(span) saving(lt) replace not
-            keep iso3 unid age18 pop dths span _Rx _qx 
+            lifetabl, strata(age18) deaths(dths) pop(pop2) ny(span) saving(lt) replace not
+            keep iso3 unid age18 pop2 dths span _Rx _qx w_pop w_dths
             gen prob = 1 - _qx
             keep if _n>=7 & _n<=14
             gen double product = prob[1]
@@ -213,22 +222,25 @@ foreach a of local car {
             gen q3070 = (1-product)*100 
             local est1 = q3070
             gen region = 1 
-            post `post_q3070_car' (region) ("`a'") (unid) (`b') (`c') (`est1')
+            post `post_q3070_car' (region) ("`a'") (unid) (`b') (`c') (`est1') (w_pop) (w_dths)
             }
         } 
     }
 postclose `post_q3070_car'
+use "`datapath'/version01/2-working/file100_q3070_car.dta", clear 
+
+
 
 ** Central America
 tempname post_q3070_ca
-postfile `post_q3070_ca' rid str3 iso3 unid year sex q3070 using "`datapath'/version01/2-working/file100_q3070_ca.dta", replace
+postfile `post_q3070_ca' rid str3 iso3 unid year sex q3070 w_pop w_dths using "`datapath'/version01/2-working/file100_q3070_ca.dta", replace
 foreach a of local ca {
     forval b = 2000(1)2016 {
         forval c = 1(1)3 { 
             use `lt_entry', clear
             keep if iso3=="`a'" & year==`b' & sex==`c' 
-            lifetabl, strata(age18) deaths(dths) pop(pop) ny(span) saving(lt) replace not
-            keep iso3 unid age18 pop dths span _Rx _qx 
+            lifetabl, strata(age18) deaths(dths) pop(pop2) ny(span) saving(lt) replace not
+            keep iso3 unid age18 pop2 dths span _Rx _qx w_pop w_dths
             gen prob = 1 - _qx
             keep if _n>=7 & _n<=14
             gen double product = prob[1]
@@ -237,7 +249,7 @@ foreach a of local ca {
             gen q3070 = (1-product)*100 
             local est1 = q3070
             gen region = 2 
-            post `post_q3070_ca' (region) ("`a'") (unid) (`b') (`c') (`est1')
+            post `post_q3070_ca' (region) ("`a'") (unid) (`b') (`c') (`est1') (w_pop) (w_dths)
             }
         } 
     }
@@ -245,14 +257,14 @@ postclose `post_q3070_ca'
 
 ** South America
 tempname post_q3070_sa
-postfile `post_q3070_sa' rid str3 iso3 unid year sex q3070 using "`datapath'/version01/2-working/file100_q3070_sa.dta", replace
+postfile `post_q3070_sa' rid str3 iso3 unid year sex q3070 w_pop w_dths using "`datapath'/version01/2-working/file100_q3070_sa.dta", replace
 foreach a of local sa {
     forval b = 2000(1)2016 {
         forval c = 1(1)3 { 
             use `lt_entry', clear
             keep if iso3=="`a'" & year==`b' & sex==`c' 
-            lifetabl, strata(age18) deaths(dths) pop(pop) ny(span) saving(lt) replace not
-            keep iso3 unid age18 pop dths span _Rx _qx 
+            lifetabl, strata(age18) deaths(dths) pop(pop2) ny(span) saving(lt) replace not
+            keep iso3 unid age18 pop2 dths span _Rx _qx w_pop w_dths 
             gen prob = 1 - _qx
             keep if _n>=7 & _n<=14
             gen double product = prob[1]
@@ -261,7 +273,7 @@ foreach a of local sa {
             gen q3070 = (1-product)*100 
             local est1 = q3070
             gen region = 3 
-            post `post_q3070_sa' (region) ("`a'") (unid) (`b') (`c') (`est1')
+            post `post_q3070_sa' (region) ("`a'") (unid) (`b') (`c') (`est1') (w_pop) (w_dths)
             }
         } 
     }
@@ -269,14 +281,14 @@ postclose `post_q3070_sa'
 
 ** North America
 tempname post_q3070_nam
-postfile `post_q3070_nam' rid str3 iso3 unid year sex q3070 using "`datapath'/version01/2-working/file100_q3070_nam.dta", replace
+postfile `post_q3070_nam' rid str3 iso3 unid year sex q3070 w_pop w_dths using "`datapath'/version01/2-working/file100_q3070_nam.dta", replace
 foreach a of local nam {
     forval b = 2000(1)2016 {
         forval c = 1(1)3 { 
             use `lt_entry', clear
             keep if iso3=="`a'" & year==`b' & sex==`c' 
-            lifetabl, strata(age18) deaths(dths) pop(pop) ny(span) saving(lt) replace not
-            keep iso3 unid age18 pop dths span _Rx _qx 
+            lifetabl, strata(age18) deaths(dths) pop(pop2) ny(span) saving(lt) replace not
+            keep iso3 unid age18 pop2 dths span _Rx _qx w_pop w_dths 
             gen prob = 1 - _qx
             keep if _n>=7 & _n<=14
             gen double product = prob[1]
@@ -285,7 +297,7 @@ foreach a of local nam {
             gen q3070 = (1-product)*100 
             local est1 = q3070
             gen region = 4
-            post `post_q3070_nam' (region) ("`a'") (unid) (`b') (`c') (`est1')
+            post `post_q3070_nam' (region) ("`a'") (unid) (`b') (`c') (`est1') (w_pop) (w_dths)
             }
         } 
     }

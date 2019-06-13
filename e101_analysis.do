@@ -4,7 +4,7 @@
     //  project:				    Premature Mortality in the Caribbean (2000-2016)
     //  analysts:				    Ian HAMBLETON
     // 	date last modified	    	6-JUN-2019
-    //  algorithm task			    Testing the Life Table process using BRB death dataseet (2016)
+    //  algorithm task			    Not Used
 
     ** General algorithm set-up
     version 15
