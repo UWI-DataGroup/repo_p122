@@ -159,7 +159,7 @@ replace rid = 3 if iso3=="CAN" | iso3=="MEX" | iso3=="USA" | iso3=="ARG" | iso3=
 label data "WHO Death Data: Male LAC"
 save "`datapath'/version01/2-working/file08_who_deaths_male_lac", replace
 
-** JOINING DATASETS TO CREATE BOTH, FEMALE< MALE IN SAME DATASET
+** JOINING DATASETS TO CREATE BOTH, FEMALE, MALE IN SAME DATASET
 use "`datapath'/version01/2-working/file08_who_deaths_female_lac", clear
 append using "`datapath'/version01/2-working/file08_who_deaths_male_lac"
 append using "`datapath'/version01/2-working/file08_who_deaths_both_lac"

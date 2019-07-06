@@ -186,22 +186,22 @@ tempfile lt_entry lt_entry2 lt_entry3 lt_entry4 lt_entry5 lt_entry6
 save `lt_entry4', replace
 save `lt_entry5', replace
 
-** CARIBBEAN category
+** CARIBBEAN (N=14)
 gen rid = .
-replace rid = 1 if   iso3=="AIA" | iso3=="ATG" | iso3=="ABW" | iso3=="BHS" | iso3=="BRB" | iso3=="BMU" | iso3=="BLZ" | iso3=="VGB"      /// Car
-        | iso3=="CYM" | iso3=="CUB" | iso3=="CUW" | iso3=="DMA" | iso3=="DOM" | iso3=="GRD" | iso3=="GUF" | iso3=="GUY"                  /// Car  
-        | iso3=="GLP" | iso3=="HTI" | iso3=="JAM" | iso3=="MTQ" | iso3=="MSR" | iso3=="PRI" | iso3=="KNA" | iso3=="LCA"                  /// Car  
-        | iso3=="VCT" | iso3=="SXM" | iso3=="SUR" | iso3=="TTO" | iso3=="TCA" | iso3=="VIR"                                              
+replace rid = 1 if    iso3=="ATG" | iso3=="BHS" | iso3=="BRB"  | iso3=="BLZ"       /// Car
+                    | iso3=="CUB" | iso3=="DOM" | iso3=="GRD"  | iso3=="GUY"       /// Car  
+                    | iso3=="HTI" | iso3=="JAM" | iso3=="LCA"                      /// Car  
+                    | iso3=="VCT" | iso3=="SUR" | iso3=="TTO"                                               
 
-** CENTRAL AMERICA category
-replace rid = 2 if iso3=="CRI" | iso3=="SLV" | iso3=="GTM" | iso3=="HND" | iso3=="NIC" | iso3=="PAN"                                    /// CA
+** CENTRAL AMERICA category (N=7)
+replace rid = 2 if iso3=="CRI" | iso3=="SLV" | iso3=="GTM" | iso3=="HND" | iso3=="NIC" | iso3=="PAN"  | iso3=="MEX"                     /// CA
 
-** SOUTH AMERICA category
-replace rid = 3 if  iso3=="ARG" | iso3=="BOL" | iso3=="BRA" | iso3=="CHL" | iso3=="COL" | iso3=="ECU" |                                 /// SA
-                    iso3=="FLK" | iso3=="PRY" | iso3=="PER" | iso3=="URY" | iso3=="VEN"                                 
+** SOUTH AMERICA category (N=10)
+replace rid = 3 if  iso3=="ARG" | iso3=="BOL" | iso3=="BRA" | iso3=="CHL" | iso3=="COL" |                           /// SA
+                    iso3=="ECU" | iso3=="PRY" | iso3=="PER" | iso3=="URY" | iso3=="VEN"                                 
 
-** NORTH AMERICA category
-replace rid = 4 if iso3=="CAN" | iso3=="MEX" | iso3=="USA" 
+** NORTH AMERICA category (N=2)
+replace rid = 4 if iso3=="CAN" | iso3=="USA" 
 
 ** Save dataset for use in Table 1 calculations of population size 
 save "`datapath'/version01/2-working/file101_pop_country.dta", replace 
@@ -296,22 +296,23 @@ postclose `post_q3070_lac3'
 
 ** CA with Mexico
 use `lt_entry4', clear
-** CARIBBEAN category
+** CARIBBEAN (N=14)
 gen rid = .
-replace rid = 1 if   iso3=="AIA" | iso3=="ATG" | iso3=="ABW" | iso3=="BHS" | iso3=="BRB" | iso3=="BMU" | iso3=="BLZ" | iso3=="VGB"      /// Car
-        | iso3=="CYM" | iso3=="CUB" | iso3=="CUW" | iso3=="DMA" | iso3=="DOM" | iso3=="GRD" | iso3=="GUF" | iso3=="GUY"                  /// Car  
-        | iso3=="GLP" | iso3=="HTI" | iso3=="JAM" | iso3=="MTQ" | iso3=="MSR" | iso3=="PRI" | iso3=="KNA" | iso3=="LCA"                  /// Car  
-        | iso3=="VCT" | iso3=="SXM" | iso3=="SUR" | iso3=="TTO" | iso3=="TCA" | iso3=="VIR"                                              
+replace rid = 1 if    iso3=="ATG" | iso3=="BHS" | iso3=="BRB"  | iso3=="BLZ"       /// Car
+                    | iso3=="CUB" | iso3=="DOM" | iso3=="GRD"  | iso3=="GUY"       /// Car  
+                    | iso3=="HTI" | iso3=="JAM" | iso3=="LCA"                      /// Car  
+                    | iso3=="VCT" | iso3=="SUR" | iso3=="TTO"                                               
 
-** CENTRAL AMERICA category
-replace rid = 2 if iso3=="CRI" | iso3=="SLV" | iso3=="GTM" | iso3=="HND" | iso3=="NIC" | iso3=="PAN" | iso3=="MEX"                      /// CA
+** CENTRAL AMERICA category (N=7)
+replace rid = 2 if iso3=="CRI" | iso3=="SLV" | iso3=="GTM" | iso3=="HND" | iso3=="NIC" | iso3=="PAN"  | iso3=="MEX"                     /// CA
 
-** SOUTH AMERICA category
-replace rid = 3 if  iso3=="ARG" | iso3=="BOL" | iso3=="BRA" | iso3=="CHL" | iso3=="COL" | iso3=="ECU" |                                 /// SA
-                    iso3=="FLK" | iso3=="PRY" | iso3=="PER" | iso3=="URY" | iso3=="VEN"                                 
+** SOUTH AMERICA category (N=10)
+replace rid = 3 if  iso3=="ARG" | iso3=="BOL" | iso3=="BRA" | iso3=="CHL" | iso3=="COL" |                                   /// SA
+                    iso3=="ECU" | iso3=="PRY" | iso3=="PER" | iso3=="URY" | iso3=="VEN"                                 
 
-** NORTH AMERICA category
+** NORTH AMERICA category (N=2)
 replace rid = 4 if iso3=="CAN" | iso3=="USA" 
+
 
 ** Collpase finaly to region-level dataset
 collapse (sum) dths low upp pop2, by(rid year sex age18 span2)  
@@ -341,26 +342,26 @@ postfile `post_q3070_lac4' rid year sex q3070 using "`datapath'/version01/2-work
         } 
 postclose `post_q3070_lac4'
 
-*/
 
 * LAC without NA
 use `lt_entry5', clear
-** CARIBBEAN category
+** CARIBBEAN (N=14)
 gen rid = .
-replace rid = 1 if   iso3=="AIA" | iso3=="ATG" | iso3=="ABW" | iso3=="BHS" | iso3=="BRB" | iso3=="BMU" | iso3=="BLZ" | iso3=="VGB"      /// Car
-        | iso3=="CYM" | iso3=="CUB" | iso3=="CUW" | iso3=="DMA" | iso3=="DOM" | iso3=="GRD" | iso3=="GUF" | iso3=="GUY"                  /// Car  
-        | iso3=="GLP" | iso3=="HTI" | iso3=="JAM" | iso3=="MTQ" | iso3=="MSR" | iso3=="PRI" | iso3=="KNA" | iso3=="LCA"                  /// Car  
-        | iso3=="VCT" | iso3=="SXM" | iso3=="SUR" | iso3=="TTO" | iso3=="TCA" | iso3=="VIR"                                              
+replace rid = 1 if    iso3=="ATG" | iso3=="BHS" | iso3=="BRB"  | iso3=="BLZ"       /// Car
+                    | iso3=="CUB" | iso3=="DOM" | iso3=="GRD"  | iso3=="GUY"       /// Car  
+                    | iso3=="HTI" | iso3=="JAM" | iso3=="LCA"                      /// Car  
+                    | iso3=="VCT" | iso3=="SUR" | iso3=="TTO"                                               
 
-** CENTRAL AMERICA category
-replace rid = 2 if iso3=="CRI" | iso3=="SLV" | iso3=="GTM" | iso3=="HND" | iso3=="NIC" | iso3=="PAN"                    /// CA
+** CENTRAL AMERICA category (N=7)
+replace rid = 2 if iso3=="CRI" | iso3=="SLV" | iso3=="GTM" | iso3=="HND" | iso3=="NIC" | iso3=="PAN"  | iso3=="MEX"                     /// CA
 
-** SOUTH AMERICA category
-replace rid = 3 if  iso3=="ARG" | iso3=="BOL" | iso3=="BRA" | iso3=="CHL" | iso3=="COL" | iso3=="ECU" |                                 /// SA
-                    iso3=="FLK" | iso3=="PRY" | iso3=="PER" | iso3=="URY" | iso3=="VEN"                                 
+** SOUTH AMERICA category (N=10)
+replace rid = 3 if  iso3=="ARG" | iso3=="BOL" | iso3=="BRA" | iso3=="CHL" | iso3=="COL" |                                   /// SA
+                    iso3=="ECU" | iso3=="PRY" | iso3=="PER" | iso3=="URY" | iso3=="VEN"                                 
 
-** NORTH AMERICA category
-replace rid = 4 if iso3=="CAN" | iso3=="USA"  | iso3=="MEX"  
+** NORTH AMERICA category (N=2)
+replace rid = 4 if iso3=="CAN" | iso3=="USA" 
+
 
 ** Collpase finaly to region-level dataset
 drop if rid==4

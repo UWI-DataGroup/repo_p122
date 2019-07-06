@@ -31,11 +31,11 @@ keep if iso3=="GTM"
 
 ** Average annual change between 2000 and 2016
 ** Load up the 30q70 dataset (with data from between 2000 and 2016)
-local nam "USA CAN MEX"
+local nam "USA CAN "
 local sa  "ARG BOL BRA CHL COL ECU PER PRY URY VEN"
-local ca  "CRI GTM HND NIC PAN SLV "
+local ca  "CRI GTM HND MEX NIC PAN SLV "
 local car  "ATG BHS BLZ BRB CUB DOM GRD GUY HTI JAM LCA SUR TTO VCT"
-local sa_ca  "ARG BOL BRA CHL COL CRI ECU SLV GTM HND NIC PAN PRY PER URY VEN"
+local sa_ca  "ARG BOL BRA CHL COL CRI ECU SLV GTM HND MEX NIC PAN PRY PER URY VEN"
 local ca  " "
 
 ** CARIBBEAN

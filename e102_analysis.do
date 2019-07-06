@@ -186,21 +186,9 @@ drop _merge
 tempfile lt_entry
 save `lt_entry', replace
 
-** CENTRAL AMERICA
-** replace rid = 1 if   iso3=="AIA" | iso3=="ATG" | iso3=="ABW" | iso3=="BHS" | iso3=="BRB" | iso3=="BMU" | iso3=="BLZ" | iso3=="VGB"      /// Car
-**        | iso3=="CYM" | iso3=="CUB" | iso3=="CUW" | iso3=="DMA" | iso3=="DOM" | iso3=="GRD" | iso3=="GUF" | iso3=="GUY"                  /// Car  
-**        | iso3=="GLP" | iso3=="HTI" | iso3=="JAM" | iso3=="MTQ" | iso3=="MSR" | iso3=="PRI" | iso3=="KNA" | iso3=="LCA"                  /// Car  
-**        | iso3=="VCT" | iso3=="SXM" | iso3=="SUR" | iso3=="TTO" | iso3=="TCA" | iso3=="VIR"                                              
-
-** replace rid = 2 if iso3=="CRI" | iso3=="SLV" | iso3=="GTM" | iso3=="HND" | iso3=="NIC" | iso3=="PAN"                                    /// CA
-
-** replace rid = 3 if iso3=="CAN" | iso3=="MEX" | iso3=="USA" | iso3=="ARG" | iso3=="BOL" | iso3=="BRA" | iso3=="CHL" |                    /// SA
-**         iso3=="COL" | iso3=="ECU" | iso3=="FLK" | iso3=="PRY" | iso3=="PER" | iso3=="URY" | iso3=="VEN"                                 
-
-
-local nam "USA CAN MEX"
+local nam "USA CAN"
 local sa  "ARG BOL BRA CHL COL ECU PER PRY URY VEN"
-local ca  "CRI GTM HND NIC PAN SLV "
+local ca  "CRI GTM HND NIC PAN SLV MEX"
 local car  "ATG BHS BLZ BRB CUB DOM GRD GUY HTI JAM LCA SUR TTO VCT"
 local brb  "BRB"
 
@@ -228,7 +216,6 @@ foreach a of local car {
     }
 postclose `post_q3070_car'
 use "`datapath'/version01/2-working/file100_q3070_car.dta", clear 
-
 
 
 ** Central America
