@@ -24,7 +24,7 @@
     log using "`logpath'\e105_analysis", replace
 ** HEADER -----------------------------------------------------
 
-/*
+
 
 
 ** For SAP --> See e000_000.do
@@ -208,6 +208,7 @@ keep if rid==1 | rid==6
 
 
 
+
 ** -----------------------------------------------------
 ** FIGURE 3
 ** -----------------------------------------------------
@@ -305,7 +306,7 @@ reshape wide pmort2000_ pmort2016_ , i(rid iso3 unid) j(sex)
 #delimit cr
 
 
-*/
+
 
 ** -----------------------------------------------------
 ** FIGURE 4
@@ -378,7 +379,7 @@ dis " Premature mortality = " `mort_med'
 ** iso3 to lowercase
 replace iso3 = lower(iso3)
 
-/*
+
 ** Caribbean
 #delimit ;
 	gr twoway 
@@ -466,11 +467,11 @@ replace iso3 = lower(iso3)
 			;
 	#delimit cr
 
-*/
+
 ** Minor jitter to show both country points (Honduras and El Salvador) 
 replace pmort2016_3 = pmort2016_3+0.2 if iso3=="hnd"
 replace pmort2016_3 = pmort2016_3-0.4 if iso3=="slv"
-/*
+
 ** South and Central America 
 #delimit ;
 	gr twoway 
@@ -569,7 +570,7 @@ replace pmort2016_3 = pmort2016_3-0.4 if iso3=="slv"
 			;
 	#delimit cr
 
-*/
+
 
 ** JOINT CARIBBEAN / SOUTH AMERICA GRAPHIC WITH ELLIPSES
 

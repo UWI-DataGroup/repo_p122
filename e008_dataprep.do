@@ -25,7 +25,7 @@
 ** HEADER -----------------------------------------------------
 
 ** For SAP --> See e000_000.do
-/*
+
 ** GRAB ISO-3 CODES for LAC countries
 import delimited using "`datapath'/version01/1-input/ghe2016_deaths_country_btsx.csv", clear
 
