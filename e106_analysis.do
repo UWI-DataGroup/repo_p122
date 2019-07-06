@@ -212,128 +212,89 @@ reshape long t, i(iid iso3 rid) j(monitor)
 				 5 "Argentina" 		6 "Ecuador" 
 				 7 "{bf:Jamaica}"	8 "Panama"
 				 9 "{bf:Suriname}"	10 "{bf:Dominican Republic}"
-				 11 "Peru"			12 "Uruguay"
-				 13 "Guatemala"		14 "Honduras"
-				 15 "El Salvador"	16 "{bf:Trinidad & Tobago}"
-				 17 "{bf:Barbados}"	18 "{bf:Cuba}"
-				 19 "Paraguay"		20 "{bf:Guyana}"
-				 21 "Venezuela"		22 "{bf:Bahamas}"
-				 23 "{bf:Belize}"	24 "{bf:St.Lucia}"
-				 25 "{bf:Antigua}"	26 "Bolivia"
-				 27 "{bf:Grenada}"	28 "{bf:St.Vincent}"
-				 29 "Nicaragua"		30 "{bf:Haiti}"
+				 11 "Mexico"
+				 12 "Peru"			13 "Uruguay"
+				 14 "Guatemala"		15 "Honduras"
+				 16 "El Salvador"	17 "{bf:Trinidad & Tobago}"
+				 18 "{bf:Barbados}"	19 "{bf:Cuba}"
+				 20 "Paraguay"		21 "{bf:Guyana}"
+				 22 "Venezuela"		23 "{bf:Bahamas}"
+				 24 "{bf:Belize}"	25 "{bf:St.Lucia}"
+				 26 "{bf:Antigua}"	27 "Bolivia"
+				 28 "{bf:Grenada}"	29 "{bf:St.Vincent}"
+				 30 "Nicaragua"		31 "{bf:Haiti}"
 			,
 			valuelabel labgap(2) labc(gs0) labs(1.8) tstyle(major_notick) nogrid glc(gs16) angle(0) format(%9.0f))
-			yscale( reverse lw(vthin) )
+			yscale( reverse noline lw(vthin) range(1(1)33))
 			ytitle("", size(2.5) margin(l=2 r=2 t=2 b=2))
+
+			/// WHO prgress score title
+			text(33 21 "WHO" "Progress" "Score",  size(2) color(gs10) just(center))
+
+			/// Costa Rica
+			text(1 21 "33",  size(2) color(gs10) just(center))
+			/// Brazil
+			text(2 21 "30",  size(2) color(gs10) just(center))
+			/// Chile
+			text(3 21 "25",  size(2) color(gs10) just(center))
+			/// Colombia
+			text(4 21 "24",  size(2) color(gs10) just(center))
+			/// Argentina
+			text(5 21 "23",  size(2) color(gs10) just(center))
+			/// Ecuador
+			text(6 21 "21",  size(2) color(gs10) just(center))
+			/// Jamaica
+			text(7 21 "20",  size(2) color(gs10) just(center))
+			/// Panama
+			text(8 21 "20",  size(2) color(gs10) just(center))
+			/// Suriname
+			text(9 21 "20",  size(2) color(gs10) just(center))
+			/// Dom Rep
+			text(10 21 "18",  size(2) color(gs10) just(center))
+			/// Mexico 
+			text(11 21 "18",  size(2) color(gs10) just(center))
+			/// Peru
+			text(12 21 "18",  size(2) color(gs10) just(center))
+			/// Uruguay 
+			text(13 21 "18",  size(2) color(gs10) just(center))
+			/// Guatemala
+			text(14 21 "17",  size(2) color(gs10) just(center))
+			/// Honduras
+			text(15 21 "17",  size(2) color(gs10) just(center))
+			/// El Salvador
+			text(16 21 "17",  size(2) color(gs10) just(center))
+			/// Trinidad
+			text(17 21 "16",  size(2) color(gs10) just(center))
+			/// Barbados
+			text(18 21 "14",  size(2) color(gs10) just(center))
+			/// Cuba
+			text(19 21 "14",  size(2) color(gs10) just(center))
+			/// Paraguay
+			text(20 21 "14",  size(2) color(gs10) just(center))
+			/// Guyana
+			text(21 21 "13",  size(2) color(gs10) just(center))
+			/// Venezuela
+			text(22 21 "12",  size(2) color(gs10) just(center))
+			/// Bahamas
+			text(23 21 "11",  size(2) color(gs10) just(center))
+			/// Belize
+			text(24 21 "11",  size(2) color(gs10) just(center))
+			/// St.Lucia
+			text(25 21 "11", size(2) color(gs10) just(center))
+			/// Antigua
+			text(26 21 "10", size(2) color(gs10) just(center))
+			/// Bolivia
+			text(27 21 "10", size(2) color(gs10) just(center))
+			/// Grenada
+			text(28 21 "10",  size(2) color(gs10) just(center))
+			/// Saint Vincent
+			text(29 21 "10",  size(2) color(gs10) just(center))
+			/// Nicaragua
+			text(30 21 "8",  size(2) color(gs10) just(center))
+			/// Haiti
+			text(31 21 "2",  size(2) color(gs10) just(center))
 
             legend(off)
 			name(heat_map)
             ;
 #delimit cr
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-#delimit ;
-
-gen yax3 = yax;
-gen xax3 = xax;
-
-replace yax3 = yax3+2 if yax3>=17 & yax3<=20;
-replace yax3 = yax3+1.5 if yax3>=13 & yax3<=16;
-replace yax3 = yax3+1 if yax3>=9 & yax3<=12;
-replace yax3 = yax3+0.5 if yax3>=5 & yax3<=8;
-replace xax3 = xax3+2 if xax3>=16 & xax3<=21;
-replace xax3 = xax3+1.5 if xax3>=11 & xax3<=15;
-replace xax3 = xax3+1 if xax3>=6 & xax3<=10;
-replace xax3 = xax3+0.5 if xax3>=1 & xax3<=5;
-
-	gr twoway 
-		/// COUNTRIES (y-axis) and WHO PROGRESS MONITOR (x-axis)
-		  (sc yax3 xax3 if dm_y1_n0==0 & wr==1, m(S) msize(*2.3) mfc(green*0.65) mlc(gs0) mlw(vthin))
-		  (sc yax3 xax3 if dm_y1_n0==0 & wr==2, m(S) msize(*2.3) mfc(yellow) mlc(gs0) mlw(vthin))
-		  (sc yax3 xax3 if dm_y1_n0==0 & wr==3, m(S) msize(*2.3) mfc(orange) mlc(gs0) mlw(vthin))
-		  (sc yax3 xax3 if dm_y1_n0==0 & wr==4, m(S) msize(*2.3) mfc(red*0.65) mlc(gs0) mlw(vthin))
-		  (sc yax3 xax3 if dm_y1_n0==0 & wr==5, m(S) msize(*2.3) mfc(red*1.25) mlc(gs0) mlw(vthin))
-		  ,
-			plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 		
-			graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) 
-			ysize(5)
-
-			/// SBP TEXT
-			text(1 23 "120", place(e) size(small)) text(2 23 "140", place(e) size(small))
-			text(3 23 "160", place(e) size(small)) text(4 23 "180", place(e) size(small))
-			text(5.5 23 "120", place(e) size(small)) text(6.5 23 "140", place(e) size(small))
-			text(7.5 23 "160", place(e) size(small)) text(8.5 23 "180", place(e) size(small))
-			text(10 23 "120", place(e) size(small)) text(11 23 "140", place(e) size(small))
-			text(12 23 "160", place(e) size(small)) text(13 23 "180", place(e) size(small))
-			text(14.5 23 "120", place(e) size(small)) text(15.5 23 "140", place(e) size(small))
-			text(16.5 23 "160", place(e) size(small)) text(17.5 23 "180", place(e) size(small))
-
-			/// AGE TEXT
-			text(2.5 -0.2 "40", place(e) size(small)) text(6.5 -0.2 "50", place(e) size(small))
-			text(10.5 -0.2 "60", place(e) size(small)) text(14.5 -0.2 "70", place(e) size(small))
-
-			/// CHOLESTEROL TEXT
-			text(-0.25 1.2 "4", place(e) size(small)) text(-0.25 2.2 "5", place(e) size(small))
-			text(-0.25 3.2 "6", place(e) size(small)) text(-0.25 4.2 "7", place(e) size(small)) text(-0.25 5.2 "8", place(e) size(small))
-
-			text(-0.25 6.8 "4", place(e) size(small)) text(-0.25 7.8 "5", place(e) size(small))
-			text(-0.25 8.8 "6", place(e) size(small)) text(-0.25 9.8 "7", place(e) size(small)) text(-0.25 10.8 "8", place(e) size(small))
-
-			text(-0.25 12.2 "4", place(e) size(small)) text(-0.25 13.2 "5", place(e) size(small))
-			text(-0.25 14.2 "6", place(e) size(small)) text(-0.25 15.2 "7", place(e) size(small)) text(-0.25 16.2 "8", place(e) size(small))
-
-			text(-0.25 17.8 "4", place(e) size(small)) text(-0.25 18.8 "5", place(e) size(small))
-			text(-0.25 19.8 "6", place(e) size(small)) text(-0.25 20.8 "7", place(e) size(small)) text(-0.25 21.8 "8", place(e) size(small))
-			
-			/// SBP title
-			text(9.5 25.5 "SBP (mm Hg)",  place(c) orient(rvertical) size(medsmall))
-			/// AGE title
-			text(9.5 -1 "Age (years)",  place(c) orient(vertical) size(medsmall))
-			/// CHOLESTEROL title
-			text(-1.5 11 "Cholesterol (mmol/L)", place(c) orient(horizontal) size(medsmall))
-			
-			/// SMOKER text
-			text(19 3.5 "Non-smoker", place(c) size(small))
-			text(19 9 "Smoker", place(c) size(small))
-			text(19 15 "Non-smoker", place(c) size(small))
-			text(19 20.5 "Smoker", place(c) size(small))
-			
-			/// SEX text
-			text(20.5 7 "Male", place(c) size(medsmall))
-			text(20.5 17 "Female", place(c) size(medsmall))
-			
-			xscale(off lw(vthin) range(-2(0.5)26)) 
-			yscale(off lw(vthin) range(-2(0.5)19)) 
-			legend(off) 
-			;
-#delimit cr
-
-
