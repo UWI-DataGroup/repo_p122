@@ -28,7 +28,7 @@
 
 ** GRAB ISO-3 CODES for LAC countries
 import delimited using "`datapath'/version01/1-input/ghe2016_deaths_country_btsx.csv", clear
-
+/*
 ** CENTRAL AMERICA (N=6)
 ** {"region":"AMERICA","subregion":"Central America","iso3":"CRI","country":"Costa Rica"},
 ** {"region":"AMERICA","subregion":"Central America","iso3":"SLV","country":"El Salvador"},

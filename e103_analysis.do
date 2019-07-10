@@ -118,3 +118,12 @@ preserve
     ** Caribbean 
     tabdisp rid if rid==2, c(dths) format(%9.1f)
 restore
+
+
+** Country populations
+keep if year==2016
+keep if sex==3
+collapse (sum) pop2, by(rid iso3 unid year sex)
+format pop2 %12.0f
+recode rid 3=2
+sort rid iso3 

@@ -32,7 +32,8 @@ use "`datapath'/version01/2-working/file100_q3070_lac.dta", clear
 drop w_* 
 ** Keep selected years
 keep if year==2000 | year==2004 | year==2008 | year==2012 | year==2016
-drop if sex==3 
+** Keep "WOmen and Men combined for use in Abstract"
+**drop if sex==3 
 ** Shorten the premature mortality name
 rename q3070 pm 
 ** Add iso3 label to unid
@@ -56,16 +57,16 @@ save `pmort' , replace
 ** We then combine (append) the FOUR sets of DIFFERENCES into a single file
 ** --------------------------------------------------------------------------
 
-tempfile d_car1 d_car2 d_sca1 d_sca2
+tempfile d_car1 d_car2 d_car3 d_sca1 d_sca2 d_sca3
 
 ** Minimum and Maximum at each tome point
 ** Caribbean
 
 
 
-** SIMPLE INEQUALITY METRIC
+** SIMPLE INEQUALITY METRIC: DIFFRENCE
 ** CARIBBEAN
-forval z = 1(1)2 {
+forval z = 1(1)3 {
 	** Load the PM at birth dataset
 	use `pmort', clear
 	keep if rid==1 & sex==`z'
@@ -94,7 +95,7 @@ forval z = 1(1)2 {
 
 	forval x = 2004(4)2016 {
 		** ABSOLUTE change in DIF between 2000 and each subsequent year
-		gen d_c`x' = d_pm2000 - d_pm`x'
+		gen d_c`x' = (-1) * (d_pm2000 - d_pm`x')
 		** PERCENTAGE change in DIF between 2000 and each subsequent year 
 		gen d_cp`x' = (d_c`x'/d_pm2000)*100
 		}
@@ -103,7 +104,7 @@ forval z = 1(1)2 {
 	reshape long d_pm d_c d_cp , i(sex) j(year)	
 	rename d* *
 	sort sex year
-	label define sex_ 1 "Women" 2 "Men" ,modify
+	label define sex_ 1 "Women" 2 "Men" 3 "Both" ,modify
 	label values sex sex_
 	list sex year _*
 	gen rid = 1
@@ -112,7 +113,7 @@ forval z = 1(1)2 {
 
 ** SIMPLE INEQUALITY METRIC
 ** SOUTH and CENTRAL AMERICA (SCA)
-forval z = 1(1)2 {
+forval z = 1(1)3 {
 	** Load the LE at birth dataset
 	use `pmort', clear
 	keep if rid==2 & sex==`z'
@@ -141,7 +142,7 @@ forval z = 1(1)2 {
 
 	forval x = 2004(4)2016 {
 		** ABSOLUTE change in DIF between 2000 and each subsequent year
-		gen d_c`x' = d_pm2000 - d_pm`x'
+		gen d_c`x' = (-1) * (d_pm2000 - d_pm`x')
 		** PERCENTAGE change in DIF between 2000 and each subsequent year 
 		gen d_cp`x' = (d_c`x'/d_pm2000)*100
 		}
@@ -150,7 +151,7 @@ forval z = 1(1)2 {
 	reshape long d_pm d_c d_cp , i(sex) j(year)	
 	rename d* *
 	sort sex year
-	label define sex_ 1 "Women" 2 "Men" ,modify
+	label define sex_ 1 "Women" 2 "Men" 3 "Both" ,modify
 	label values sex sex_
 	list sex year _*
 	gen rid = 2
@@ -159,8 +160,10 @@ forval z = 1(1)2 {
 
 use `d_car1', clear
 append using `d_car2'
+append using `d_car3'
 append using `d_sca1'
 append using `d_sca2'
+append using `d_sca3'
 gen measure = 1
 label define measure 1 "QDIF" 2 "QMD" 
 label values measure measure
@@ -185,11 +188,11 @@ save "`datapath'/version01/2-working/d_dif.dta", replace
 ** --------------------------------------------------------------------------
 
 
-tempfile cd_car1 cd_car2 cd_sca1 cd_sca2
+tempfile cd_car1 cd_car2 cd_car3 cd_sca1 cd_sca2 cd_sca3
 
 ** COMPLEX INEQUALITY METRIC
 ** ABSOLUTE MEAN DIFFERENCE (QMD)
-forval z = 1(1)2 {
+forval z = 1(1)3 {
 	** Load the PM at birth dataset
 	use `pmort', clear
 	keep if rid==1 & sex==`z'
@@ -215,7 +218,7 @@ forval z = 1(1)2 {
 
 	forval x = 2000(4)2016 {
 		** ABSOLUTE change in QMD between 2000 and each subsequent yr
-		gen qmd_c`x' =  qmd_pm2000 - qmd_pm`x'
+		gen qmd_c`x' =  (-1) * (qmd_pm2000 - qmd_pm`x')
 		** PERCENTAGE change in QMD between 2000 and each subsequent yr
 		gen qmd_cp`x' = (qmd_c`x'/qmd_pm2000)*100
 		}
@@ -224,7 +227,7 @@ forval z = 1(1)2 {
 	reshape long qmd_pm qmd_c qmd_cp , i(sex) j(year)	
 	rename qmd* *
 	sort sex year
-	label define sex_ 1 "Women" 2 "Men" ,modify
+	label define sex_ 1 "Women" 2 "Men" 3 "Both" ,modify
 	label values sex sex_
 	list sex year _*
 	gen rid = 1
@@ -232,9 +235,12 @@ forval z = 1(1)2 {
 	save `cd_car`z'', replace
 }
 
+
+
+
 ** COMPLEX INEQUALITY METRIC
 ** ABSOLUTE MEAN DIFFERENCE (QMD)
-forval z = 1(1)2 {
+forval z = 1(1)3 {
 	** Load the PM at birth dataset
 	use `pmort', clear
 	keep if rid==2 & sex==`z'
@@ -260,7 +266,7 @@ forval z = 1(1)2 {
 
 	forval x = 2000(4)2016 {
 		** ABSOLUTE change in QMD between 2000 and each subsequent yr
-		gen qmd_c`x' =  qmd_pm2000 - qmd_pm`x'
+		gen qmd_c`x' =  (-1) * (qmd_pm2000 - qmd_pm`x')
 		** PERCENTAGE change in QMD between 2000 and each subsequent yr
 		gen qmd_cp`x' = (qmd_c`x'/qmd_pm2000)*100
 		}
@@ -269,7 +275,7 @@ forval z = 1(1)2 {
 	reshape long qmd_pm qmd_c qmd_cp , i(sex) j(year)	
 	rename qmd* *
 	sort sex year
-	label define sex_ 1 "Women" 2 "Men" ,modify
+	label define sex_ 1 "Women" 2 "Men" 3 "Both" ,modify
 	label values sex sex_
 	list sex year _*
 	gen rid = 2
@@ -280,8 +286,10 @@ forval z = 1(1)2 {
 
 use `cd_car1', clear
 append using `cd_car2'
+append using `cd_car3'
 append using `cd_sca1'
 append using `cd_sca2'
+append using `cd_sca3'
 gen measure = 2
 label define measure 1 "QDIF" 2 "QMD" 
 label values measure measure
