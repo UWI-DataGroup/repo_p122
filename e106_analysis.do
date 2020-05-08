@@ -188,7 +188,7 @@ reshape long t, i(iid iso3 rid) j(monitor)
         (sc iid monitor if rid==6 & t==2,  xaxis(1 2) msize(4) m(s) mlc(gs10) mfc("26 152 80") mlw(0.1))
         (sc iid monitor if rid==6 & t>=.,  xaxis(1 2) msize(4) m(s) mlc(gs10) mfc(gs10) mlw(0.1))
 		,
-			graphregion(color(gs16)) ysize(14) xsize(11.5)
+			graphregion(color(gs16)) ysize(17) xsize(11.5)
 
 			xlab(1 "NCD targets"
 				 2 "Mortality data" 					3 "Risk factor survey" 
@@ -201,7 +201,7 @@ reshape long t, i(iid iso3 rid) j(monitor)
 				 16 "Restrict breast milk marketing"	17 "Physical activity awareness"
 				 18 "NCD management guidelines"			19 "AMI / stroke prevention"
 			,
-			axis(2) valuelabel labc(gs0) labs(1.75) tstyle(major_notick) nogrid glc(gs16) angle(45) format(%9.0f))
+			axis(2) valuelabel labc(gs0) labs(1.75) tstyle(major_notick) nogrid glc(gs16) angle(45) format(%9.0f) labgap(4))
 			xscale(axis(2) noline lw(vthin) range(1(1)23))
 			xtitle("", axis(2) size(2.5) color(gs0) margin(l=2 r=2 t=5 b=2))
 			xscale(off axis(1) noline lw(vthin))
@@ -228,6 +228,9 @@ reshape long t, i(iid iso3 rid) j(monitor)
 			yscale( reverse noline lw(vthin) range(1(1)33))
 			ytitle("", size(2.5) margin(l=2 r=2 t=2 b=2))
 
+			/// PROGRESS INDICATOR 
+			text(-0.3 10.5 "{bf: WHO Progress Indicator}",  size(2.5) color(gs0) just(center))
+			
 			/// WHO prgress score title
 			text(33 21 "WHO" "Progress" "Score",  size(2) color(gs10) just(center))
 
@@ -294,7 +297,15 @@ reshape long t, i(iid iso3 rid) j(monitor)
 			/// Haiti
 			text(31 21 "2",  size(2) color(gs10) just(center))
 
-            legend(off)
+			legend(size(2.25) position(7) ring(1) bm(t=1 b=1 l=1 r=0) colf cols(2) rowgap(0.5) colgap(0.5)
+			region(fcolor(gs16) lw(vthin) margin(l=0 r=0 t=0 b=0))
+			order(1 2 3 4)
+			lab(1 "not implemented")
+			lab(2 "partially implemented")
+			lab(3 "fully implemented")
+			lab(4 "not reported")
+            )
 			name(heat_map)
             ;
 #delimit cr
+graph export "X:\The University of the West Indies\DataGroup - DG_Projects\PROJECT_p122\05_Outputs\HAMBLETON_Figure3.svg", as(svg) name("heat_map") replace
