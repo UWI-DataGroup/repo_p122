@@ -18,121 +18,16 @@
     local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p122"
     ** LOGFILES to unencrypted OneDrive folder (.gitignore set to IGNORE log files on PUSH to GitHub)
     local logpath X:/OneDrive - The University of the West Indies/repo_datagroup/repo_p122
+    local outputpath "X:\The University of the West Indies\DataGroup - DG_Projects\PROJECT_p122"
 
     ** Close any open log file and open a new log file
     capture log close
-    log using "`logpath'\e106_analysis", replace
+    log using "`logpath'\e106_analysis_2020", replace
 ** HEADER -----------------------------------------------------
-
-** For SAP --> See e000_000.do
-
-** -----------------------------------------------------
-** REGRESSION of 30q70.
-** Outcome variants
-**  	Outcome 1: 30q70 in 2016
-** 		Outcome 2: 30q70 between 2000 and 2016
-**  
-** -----------------------------------------------------
-
-** Example DID
-** 		use "`datapath'/version01/1-input/Panel101", clear
-** 		gen time = (year>=1994) & !missing(year)
-** 		gen treated = (country>4) & !missing(country)
-** 		gen did = time*treated
-** 		reg y time treated did, r
-** 		reg y time##treated, r
-
-tempfile wb_data
-/*
-use "`datapath'/version01/2-working/file06_worldbank", clear
-rename countrycode iso3 
-** Test on Barbados and Brazil
-**keep if iso3=="BRB" | iso3=="BRA"
-save `wb_data', replace 
-
-** Join with outcome data, merging using iso3
-use "`datapath'/version01/2-working/file100_q3070_lac.dta", clear 
-replace w_pop = int(w_pop)
-replace w_dths = int(w_dths)
-**keep if iso3=="BRB" | iso3=="BRA"
-drop if rid==4
-merge m:m iso3 year using `wb_data'
-
-** Time (pre and post 2008)
-gen time = (year>=2008) & !missing(year)
-** Treatment (this is region)
-gen treg = (rid>1) & !missing(rid) 
-drop if q3070==.
-
-
-** WHO Progress Monitor
-use "`datapath'/version01/2-working/file07_who_progress_monitor", clear
-rename cid iso3 
-egen tot_prog = rowtotal(t1 t2 t3 t4 t5a t5b t5c t5d t5e t6a t6b t6c t7a t7b t7c t7d t8 t9 t10)
-replace tot_prog = (tot_prog/(19*2))*100
-
-egen tot_target = rowtotal(t1 t2 t3)
-replace tot_target = (tot_target/(3*2))*100
-
-egen tot_policy = rowtotal(t4)
-replace tot_policy = (tot_policy/(2))*100
-
-egen tot_rf = rowtotal(t5a t5b t5c t5d t5e)
-replace tot_rf = (tot_rf/(5*2))*100
-
-egen tot_measure = rowtotal(t6a t6b t6c t7a t7b t7c t7d t8)
-replace tot_measure = (tot_measure/(8*2))*100
-
-egen tot_system = rowtotal(t9 t10)
-replace tot_system = (tot_system/(2*2))*100
-
-keep iso3 tot_*
-tempfile prog_monitor
-save `prog_monitor', replace
-
-** Join with 30q70 
-use "`datapath'/version01/2-working/file100_q3070_lac.dta", clear 
-replace w_pop = int(w_pop)
-replace w_dths = int(w_dths)
-** Time (pre and post 2008)
-gen time = (year>=2008) & !missing(year)
-** Treatment (this is region)
-gen treg = (rid>1) & !missing(rid) 
-drop if q3070==.
-merge m:1 iso3 using `prog_monitor' 
-drop if rid==.
-drop if rid==4
-recode rid 2 3 = 6
-label define rid_ 1 "caribbean" 6 "ca+sa",modify
-label values rid rid_
-
-** Longitudinal Model 
-diff q3070 if sex==2 [fweight=w_pop], t(treg) p(time) cov(tot_prog) report
-regress q3070 time treg treg#time tot_prog if sex==2
-
-** Cross sectional models
-** Mortality in 2016
-keep if year==2000 | year==2008 | year==2016
-keep iso3 rid unid sex year q3070 tot_* w_dths
-reshape wide q3070 w_dths, i(iso3 sex tot_*) j(year)
-rename q30702000 pm_2000
-rename q30702008 pm_2008
-rename q30702016 pm_2016
-
-regress pm_2016 i.rid tot_prog if sex==2
-regress pm_2016 i.rid tot_prog if sex==2
-regress pm_2016 i.rid##c.tot_prog if sex==2
-margins rid, at(tot_prog=(20(10)100))
-
-gen pm_change1 = pm_2000 - pm_2016 
-regress pm_change1 rid##c.tot_prog if sex==2
-margins rid, at(tot_prog=(20(10)80))
-
-*/
 
 ** HeatMap of WHO Progress metrics
 
-use "`datapath'/version01/2-working/file07_who_progress_monitor", clear
+use "`datapath'/version01/2-working/file07_who_progress_monitor_combined", clear
 rename cid iso3 
 tempfile prog_monitor
 save `prog_monitor', replace
@@ -149,30 +44,19 @@ label values rid rid_
 keep if year==2016 & sex==3
 drop _merge
 
-rename t8 t17
-rename t9 t18
-rename t10 t19
-rename t5a t5
-rename t5b t6 
-rename t5c t7 
-rename t5d t8
-rename t5e t9 
-rename t6a t10 
-rename t6b t11
-rename t6c t12
-rename t7a t13
-rename t7b t14
-rename t7c t15
-rename t7d t16
-
-** Total score
-egen tot_score = rowtotal(t1 t2 t3 t4 t5 t6 t7 t8 t9 t10 t11 t12 t13 t14 t15 t16 t17 t18 t19)
-gsort -tot_score iso3
+** Total score (ordered by vaues in 2017)
+gsort -tscore2017 iso3
 gen iid = _n
-order iid tot_score iso3 
+order iid tscore2017 iso3 
 
-drop w_* totpop pmort tmort sex year 
-reshape long t, i(iid iso3 rid) j(monitor)
+drop w_* *totpop *pmort *tmort *sex *year *pdeath
+reshape long y17_t y20_t , i(iid iso3 rid) j(monitor)
+order iid iso3 rid monitor unid q3070 tscore2017 tscore2020 y17_t y20_t  
+
+
+/*
+** Save the score file 
+save "`datapath'/version01/2-working/progress2020", replace
 
 #delimit ;
 	gr twoway
@@ -235,7 +119,7 @@ reshape long t, i(iid iso3 rid) j(monitor)
 			text(33 21 "WHO" "Progress" "Score",  size(2) color(gs10) just(center))
 
 			/// Costa Rica
-			text(1 21 "33",  size(2) color(gs10) just(center))
+			text(1 21 "30",  size(2) color(gs10) just(center))
 			/// Brazil
 			text(2 21 "30",  size(2) color(gs10) just(center))
 			/// Chile
@@ -309,3 +193,38 @@ reshape long t, i(iid iso3 rid) j(monitor)
             ;
 #delimit cr
 graph export "X:\The University of the West Indies\DataGroup - DG_Projects\PROJECT_p122\05_Outputs\HAMBLETON_Figure3.svg", as(svg) name("heat_map") replace
+graph export "X:\The University of the West Indies\DataGroup - DG_Projects\PROJECT_p122\05_Outputs\HAMBLETON_heatmapsupplement.png", replace width(4000)
+
+
+
+
+** PDF for SUPPLEMENT
+    putpdf begin, pagesize(letter) landscape font("Calibri Light", 12) margin(top,1cm) margin(bottom,1cm) margin(left,1cm) margin(right,1cm)
+	* Fig title
+    putpdf paragraph ,  font("Calibri Light", 12)
+    putpdf text ("SUPPLEMENT 4. ") , bold
+    putpdf text ("Heatmap depicting World Health Organization progress indicators for prevention and control of non-communicable disease ")
+	* The figure
+    putpdf table f2 = (1,2), width(80%) border(all,nil) halign(center)
+    putpdf table f2(1,1)=image("`outputpath'/05_Outputs/HAMBLETON_Figure3.png")
+    putpdf table f2(1,2)=image("`outputpath'/05_Outputs/HAMBLETON_heatmapsupplement.png")
+
+    ** putpdf save 
+    putpdf save "`outputpath'/05_Outputs/Health and Place/HAMBLETON_HealthPlace_200623_heatmapsupplement", replace
+
+
+
+** Now taking a look at Progress difrerences between 2017 and 2020
+tempfile pm2017 pm2020 
+use "`datapath'/version01/2-working/progress2017", replace
+rename tot_score tscore2017 
+save `pm2017'
+use "`datapath'/version01/2-working/progress2020", replace
+rename tot_score tscore2020 
+save `pm2020'
+
+merge 1:1 iid monitor using `pm2017' 
+order tscore2020, after(tscore2017) 
+
+gen diff = tscore2020 - tscore2017 
+order diff, after(tscore2020) 

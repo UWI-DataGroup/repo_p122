@@ -18,6 +18,7 @@
     local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p122"
     ** LOGFILES to unencrypted OneDrive folder (.gitignore set to IGNORE log files on PUSH to GitHub)
     local logpath X:/OneDrive - The University of the West Indies/repo_datagroup/repo_p122
+    local outputpath "X:\The University of the West Indies\DataGroup - DG_Projects\PROJECT_p122"
 
     ** Close any open log file and open a new log file
     capture log close
@@ -30,7 +31,7 @@
 ** For SAP --> See e000_000.do
 
 ** -----------------------------------------------------
-** FIGURE 1. EQUIPLOT OF COUNTRY AND REGIONAL 30q70 
+** FIGURE 2. EQUIPLOT OF COUNTRY AND REGIONAL 30q70 
 ** -----------------------------------------------------
 ** Build the dataset for equiplot
 ** Country-level data 
@@ -69,7 +70,7 @@ replace yax = yax-12 if _n>=11
 replace yax = yax + 2 if yax>=6 & rid==6
 order yax
 
-/*
+
 
 ** Caribbean
 #delimit ;
@@ -112,6 +113,7 @@ order yax
             ;
 #delimit cr
 graph export "X:\The University of the West Indies\DataGroup - DG_Projects\PROJECT_p122\05_Outputs\HAMBLETON_Figure2a.svg", as(svg) name("caribbean") replace
+graph export "X:\The University of the West Indies\DataGroup - DG_Projects\PROJECT_p122\05_Outputs\HAMBLETON_Figure2a.png", replace width(6000)
 
 ** Central and South America
 #delimit ;
@@ -154,8 +156,9 @@ graph export "X:\The University of the West Indies\DataGroup - DG_Projects\PROJE
             ;
 #delimit cr
 graph export "X:\The University of the West Indies\DataGroup - DG_Projects\PROJECT_p122\05_Outputs\HAMBLETON_Figure2b.svg", as(svg) name("ca_and_sa") replace
+graph export "X:\The University of the West Indies\DataGroup - DG_Projects\PROJECT_p122\05_Outputs\HAMBLETON_Figure2b.png", replace width(4000)
 
-*/
+
 
 ** -----------------------------------------------------
 ** FIGURE 1
@@ -210,11 +213,13 @@ keep if rid==1 | rid==6
             ;
 #delimit cr
 graph export "X:\The University of the West Indies\DataGroup - DG_Projects\PROJECT_p122\05_Outputs\HAMBLETON_Figure1.svg", as(svg) name("line_01") replace
+graph export "X:\The University of the West Indies\DataGroup - DG_Projects\PROJECT_p122\05_Outputs\HAMBLETON_Figure1.png", replace width(4000)
+
 
 /*
 
 ** -----------------------------------------------------
-** FIGURE 3
+** FIGURE X - NOT USED
 ** -----------------------------------------------------
 ** Scatterplot of Regional 30Q70 in 2000 and in 2016
 use "`datapath'/version01/2-working/file100_q3070_lac.dta", clear 
@@ -310,7 +315,7 @@ reshape wide pmort2000_ pmort2016_ , i(rid iso3 unid) j(sex)
 #delimit cr
 
 
-
+*/
 
 
 ** -----------------------------------------------------
@@ -391,52 +396,52 @@ replace iso3 = lower(iso3)
 		/// BOTTOM LEFT. Orange --> Low mortality but poor progress
 		/// BRB / BHS
 		(sc pmort2016_3 tot_score if iso3=="brb" & rid==1 & pmort2016_3<`mort_med' & tot_score<`prog_med'   ,  
-					mlabel(iso3) mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
+					mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
 					mlabp(6))
 		(sc pmort2016_3 tot_score if iso3=="bhs" & rid==1 & pmort2016_3<`mort_med' & tot_score<`prog_med'   ,  
-					mlabel(iso3) mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
+					mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
 					mlabp(9))
 		/// TOP LEFT. Red --> Poor outlook
 		/// ATG / BLZ / CUB / GRD / GUY / HTI / LCA / VCT / TTO
 		(sc pmort2016_3 tot_score if iso3=="atg" & rid==1 & pmort2016_3>=`mort_med' & tot_score<`prog_med'  ,  
-					mlabel(iso3) mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
+					mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
 					mlabp(9))
 		(sc pmort2016_3 tot_score if iso3=="blz" & rid==1 & pmort2016_3>=`mort_med' & tot_score<`prog_med'  ,  
-					mlabel(iso3) mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
+					mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
 					mlabp(2))
 		(sc pmort2016_3 tot_score if iso3=="cub" & rid==1 & pmort2016_3>=`mort_med' & tot_score<`prog_med'  ,  
-					mlabel(iso3) mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
+					mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
 					mlabp(12))
 		(sc pmort2016_3 tot_score if iso3=="grd" & rid==1 & pmort2016_3>=`mort_med' & tot_score<`prog_med'  ,  
-					mlabel(iso3) mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
+					mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
 					mlabp(8) mlabg(1pt))
 		(sc pmort2016_3 tot_score if iso3=="guy" & rid==1 & pmort2016_3>=`mort_med' & tot_score<`prog_med'  ,  
-					mlabel(iso3) mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
+					mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
 					mlabp(12))
 		(sc pmort2016_3 tot_score if iso3=="hti" & rid==1 & pmort2016_3>=`mort_med' & tot_score<`prog_med'  ,  
-					mlabel(iso3) mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
+					mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
 					mlabp(12))
 		(sc pmort2016_3 tot_score if iso3=="lca" & rid==1 & pmort2016_3>=`mort_med' & tot_score<`prog_med'  ,  
-					mlabel(iso3) mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
+					mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
 					mlabp(12))
 		(sc pmort2016_3 tot_score if iso3=="vct" & rid==1 & pmort2016_3>=`mort_med' & tot_score<`prog_med'  ,  
-					mlabel(iso3) mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
+					mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
 					mlabp(12))
 		(sc pmort2016_3 tot_score if iso3=="tto" & rid==1 & pmort2016_3>=`mort_med' & tot_score<`prog_med'  ,  
-					mlabel(iso3) mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
+					mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
 					mlabp(12))
 		/// BOTTOM RIGHT. Green --> Very good progress 
 		/// JAM
 		(sc pmort2016_3 tot_score if iso3=="jam" & rid==1 & pmort2016_3<`mort_med' & tot_score>=`prog_med'  ,  
-					mlabel(iso3) mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
+					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
 					mlabp(4))
 		/// TOP RIGHT. Orange --> Hopeful 
 		/// DOM / SUR
 		(sc pmort2016_3 tot_score if iso3=="dom" & rid==1 & pmort2016_3>=`mort_med' & tot_score>=`prog_med' ,  
-					mlabel(iso3) mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
+					mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
 					mlabp(4))
 		(sc pmort2016_3 tot_score if iso3=="sur" & rid==1 & pmort2016_3>=`mort_med' & tot_score>=`prog_med' ,  
-					mlabel(iso3) mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
+					mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
 					mlabp(12))
 		,
 			graphregion(color(gs16)) ysize(10) xsize(6)
@@ -462,6 +467,29 @@ replace iso3 = lower(iso3)
 			"lca=Saint Lucia, sur=Suriname, tto=Trinidad and Tobago," 
 			"vct=Saint Vincent and the Grenadines", color(gs10) size(3))
 
+			/// Country TEXT on graphic
+			/// RED (upper left)
+			text( 31.6 15.0  "{bf:guy}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 27.4 3.8  "{bf:hti}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 24.1 10.2  "{bf:vct}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 22.6 8.4  "{bf:atg}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 22.5 13.8  "{bf:blz}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 22.2 16.2  "{bf:tto}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 21.0 8.9  "{bf:grd}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 19.0 9.9  "{bf:lca}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 17.4 14.5  "{bf:cub}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+
+			/// GREEN (lower right)
+			text( 14.6 23.6  "{bf:jam}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+
+			/// ORANGE (upper right)
+			text( 22.7 20.6  "{bf:sur}", 		j(right) place(w) size(3) col("253 174 97 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 19.0 21.8  "{bf:dom}", 		j(right) place(w) size(3) col("253 174 97 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+
+			/// ORANGE (lower left)
+			text( 15.5 9.5  "{bf:bhs}", 		j(right) place(w) size(3) col("253 174 97 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 15.3 15.2  "{bf:brb}", 		j(right) place(w) size(3) col("253 174 97 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+
 			/// Quandrant descriptors
 			text( 7.5  35  "{it:Low 30q70}" "{it:High progress}", 		j(right) place(w) size(3) col(gs0) box lc(gs0) lw(0.1) fc("26 150 65 %50") margin(l=1 r=1 t=1 b=1) ) 
 			text( 32.5  35  "{it:High 30q70}" "{it:High progress}", 	j(right) place(w) size(3) col(gs0) box lc(gs0) lw(0.1) fc("253 174 97 %50") margin(l=1 r=1 t=1 b=1) ) 
@@ -474,6 +502,8 @@ replace iso3 = lower(iso3)
 			;
 	#delimit cr
 graph export "X:\The University of the West Indies\DataGroup - DG_Projects\PROJECT_p122\05_Outputs\HAMBLETON_Figure4c.svg", as(svg) name("monitor_caribbean") replace
+graph export "X:\The University of the West Indies\DataGroup - DG_Projects\PROJECT_p122\05_Outputs\HAMBLETON_Figure4c.png", replace width(4000)
+
 
 
 ** Minor jitter to show both country points (Honduras and El Salvador) 
@@ -486,63 +516,63 @@ replace pmort2016_3 = pmort2016_3-0.4 if iso3=="slv"
 		/// BOTTOM LEFT. Orange --> Low mortality but poor progress
 		/// NIC
 		(sc pmort2016_3 tot_score if iso3=="nic" & rid==6  & pmort2016_3<`mort_med' & tot_score<`prog_med'  ,  
-					mlabel(iso3) mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
+					mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
 					mlabp(12))
 		/// TOP LEFT. Red --> Poor outlook
 		/// ATG / BLZ / CUB / GRD / GUY / HTI / LCA / VCT / TTO
 
 		(sc pmort2016_3 tot_score if iso3=="bol" & rid==6 & pmort2016_3>=`mort_med' & tot_score<`prog_med'  ,  
-					mlabel(iso3) mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
+					mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
 					mlabp(9))
 		(sc pmort2016_3 tot_score if iso3=="pry" & rid==6 & pmort2016_3>=`mort_med' & tot_score<`prog_med'  ,  
-					mlabel(iso3) mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
+					mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
 					mlabp(1))
 		(sc pmort2016_3 tot_score if iso3=="ven" & rid==6 & pmort2016_3>=`mort_med' & tot_score<`prog_med'  ,  
-					mlabel(iso3) mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
+					mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
 					mlabp(12))
 
 		/// BOTTOM RIGHT. Green --> Very good progress 
 		/// ARG / CRI
 		(sc pmort2016_3 tot_score if iso3=="arg" & rid==6 & pmort2016_3<`mort_med' & tot_score>=`prog_med'  ,  
-					mlabel(iso3) mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
+					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
 					mlabp(12))
 		(sc pmort2016_3 tot_score if iso3=="chl" & rid==6 & pmort2016_3<`mort_med' & tot_score>=`prog_med'  ,  
-					mlabel(iso3) mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
+					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
 					mlabp(4) mlabg(1pt))
 		(sc pmort2016_3 tot_score if iso3=="col" & rid==6 & pmort2016_3<`mort_med' & tot_score>=`prog_med'  ,  
-					mlabel(iso3) mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
+					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
 					mlabp(3) mlabg(2pt))
 		(sc pmort2016_3 tot_score if iso3=="cri" & rid==6 & pmort2016_3<`mort_med' & tot_score>=`prog_med'  ,  
-					mlabel(iso3) mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
+					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
 					mlabp(12))
 		(sc pmort2016_3 tot_score if iso3=="ecu" & rid==6 & pmort2016_3<`mort_med' & tot_score>=`prog_med'  ,  
-					mlabel(iso3) mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
+					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
 					mlabp(5) mlabg(1pt))
 		(sc pmort2016_3 tot_score if iso3=="gtm" & rid==6 & pmort2016_3<`mort_med' & tot_score>=`prog_med'  ,  
-					mlabel(iso3) mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
+					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
 					mlabp(10))
 		(sc pmort2016_3 tot_score if iso3=="hnd" & rid==6 & pmort2016_3<`mort_med' & tot_score>=`prog_med'  ,  
-					mlabel(iso3) mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
+					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
 					mlabp(9))	
 		(sc pmort2016_3 tot_score if iso3=="mex" & rid==6 & pmort2016_3<`mort_med' & tot_score>=`prog_med'  ,  
-					mlabel(iso3) mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
+					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
 					mlabp(3))	
 		(sc pmort2016_3 tot_score if iso3=="pan" & rid==6 & pmort2016_3<`mort_med' & tot_score>=`prog_med' ,  
-					mlabel(iso3) mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
+					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
 					mlabp(12))
 		(sc pmort2016_3 tot_score if iso3=="per" & rid==6 & pmort2016_3<`mort_med' & tot_score>=`prog_med'  ,  
-					mlabel(iso3) mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
+					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
 					mlabp(6) mlabg(1pt))			
 		(sc pmort2016_3 tot_score if iso3=="slv" & rid==6 & pmort2016_3<`mort_med' & tot_score>=`prog_med'  ,  
-					mlabel(iso3) mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
+					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
 					mlabp(8))					
 		/// TOP RIGHT. Orange --> Hopeful 
 		/// BRA
 		(sc pmort2016_3 tot_score if iso3=="bra" & rid==6 & pmort2016_3>=`mort_med' & tot_score>=`prog_med'  ,  
-					mlabel(iso3) mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
+					mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
 					mlabp(12))
 		(sc pmort2016_3 tot_score if iso3=="ury" & rid==6 & pmort2016_3>=`mort_med' & tot_score>=`prog_med'  ,  
-					mlabel(iso3) mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
+					mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
 					mlabp(1))
 		,
 			graphregion(color(gs16)) ysize(10) xsize(6)
@@ -568,6 +598,30 @@ replace pmort2016_3 = pmort2016_3-0.4 if iso3=="slv"
 			" nic=Nicaragua, pan=Panama, pry=Paraguay, per=Peru, " 
 			"slv=El Salvador, ury=Uruguay, ven=Venezuela", color(gs10) size(3))
 
+			/// Country TEXT on graphic
+			/// RED (upper left)
+			text( 19 12.6  "{bf:ven}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 17.4 8.5  "{bf:bol}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 18.4 16.3  "{bf:pry}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// ORANGE (lower left)
+			text( 14.5 6.4  "{bf:nic}", 		j(right) place(w) size(3) col("253 174 97 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// ORANGE (upper right)
+			text( 17.8 19.6  "{bf:ury}", 		j(right) place(w) size(3) col("253 174 97 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 17.6 31  "{bf:bra}", 		j(right) place(w) size(3) col("253 174 97 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// GREEN (lower right)
+			text( 15.2 15.8  "{bf:gtm}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 14.3 15.8  "{bf:hnd}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 13.5 15.8  "{bf:slv}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 12.5 16.5  "{bf:per}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 15.3 21.4  "{bf:mex}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+
+			text( 16.8 23.0  "{bf:arg}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 15.5 27.0  "{bf:col}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 12.5 34.0  "{bf:cri}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 12.3 27.9  "{bf:chl}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 14.0 21.3  "{bf:pan}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 12.21 23.0  "{bf:ecu}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+
 			/// Quandrant descriptors
 			text( 7.5  35  "{it:Low 30q70}" "{it:High progress}", 		j(right) place(w) size(3) col(gs0) box lc(gs0) lw(0.1) fc("26 150 65 %50") margin(l=1 r=1 t=1 b=1) ) 
 			text( 32.5  35  "{it:High 30q70}" "{it:High progress}", 	j(right) place(w) size(3) col(gs0) box lc(gs0) lw(0.1) fc("253 174 97 %50") margin(l=1 r=1 t=1 b=1) ) 
@@ -580,6 +634,7 @@ replace pmort2016_3 = pmort2016_3-0.4 if iso3=="slv"
 			;
 	#delimit cr
 graph export "X:\The University of the West Indies\DataGroup - DG_Projects\PROJECT_p122\05_Outputs\HAMBLETON_Figure4b.svg", as(svg) name("monitor_southamerica") replace
+graph export "X:\The University of the West Indies\DataGroup - DG_Projects\PROJECT_p122\05_Outputs\HAMBLETON_Figure4b.png", replace width(4000)
 
 
 
@@ -636,4 +691,60 @@ graph export "X:\The University of the West Indies\DataGroup - DG_Projects\PROJE
 	;
 #delimit cr 
 graph export "X:\The University of the West Indies\DataGroup - DG_Projects\PROJECT_p122\05_Outputs\HAMBLETON_Figure4a.svg", as(svg) name("monitor_compare") replace
+graph export "X:\The University of the West Indies\DataGroup - DG_Projects\PROJECT_p122\05_Outputs\HAMBLETON_Figure4a.png", replace width(4000)
+
+
+
+
+** PDF for FIGURE 1
+    putpdf begin, pagesize(letter) font("Calibri Light", 12) margin(top,1cm) margin(bottom,1cm) margin(left,1cm) margin(right,1cm)
+	* Fig title
+    putpdf paragraph ,  font("Calibri Light", 12)
+    putpdf text ("FIGURE 1. ") , bold
+    putpdf text ("Change in premature mortality between 2000 and 2016 for women and men by subregion ")
+	* The figure
+    putpdf table f2 = (1,1), width(60%) border(all,nil) halign(center)
+    putpdf table f2(1,1)=image("`outputpath'/05_Outputs/HAMBLETON_Figure1.png")
+    ** putpdf save 
+    putpdf save "`outputpath'/05_Outputs/Health and Place/HAMBLETON_HealthPlace_200623_Figure1", replace
+
+
+** PDF for FIGURE 2
+    putpdf begin, landscape pagesize(letter) font("Calibri Light", 12) margin(top,1cm) margin(bottom,1cm) margin(left,1cm) margin(right,1cm)
+	* Fig title
+    putpdf paragraph ,  font("Calibri Light", 12)
+    putpdf text ("FIGURE 2. ") , bold
+    putpdf text ("Premature mortality between 2000 and 2016 by subregion ")
+	* The figure
+    putpdf table f2 = (1,2), width(90%) border(all,nil) halign(center)
+    putpdf table f2(1,1)=image("`outputpath'/05_Outputs/HAMBLETON_Figure2a.png")
+    putpdf table f2(1,2)=image("`outputpath'/05_Outputs/HAMBLETON_Figure2b.png")
+    ** putpdf save 
+    putpdf save "`outputpath'/05_Outputs/Health and Place/HAMBLETON_HealthPlace_200623_Figure2", replace
+
+
+** PDF for FIGURE 4
+    putpdf begin, landscape pagesize(letter) font("Calibri Light", 12) margin(top,1cm) margin(bottom,1cm) margin(left,1cm) margin(right,1cm)
+	* Fig title
+    putpdf paragraph ,  font("Calibri Light", 12)
+    putpdf text ("FIGURE 4. ") , bold
+    putpdf text ("Premature mortality in 2016 and WHO progress indicators in 2017 by subregion and country ")
+	* The figure
+    putpdf table f2 = (1,3), width(85%) border(all,nil) halign(center)
+    putpdf table f2(1,1)=image("`outputpath'/05_Outputs/HAMBLETON_Figure4a.png")
+    putpdf table f2(1,2)=image("`outputpath'/05_Outputs/HAMBLETON_Figure4b.png")
+    putpdf table f2(1,3)=image("`outputpath'/05_Outputs/HAMBLETON_Figure4c.png")
+	** Methodological Note
+    putpdf paragraph ,  font("Calibri Light", 9)
+    putpdf text ("Methodological Note. ") , bold
+    putpdf text ("In graphic B and C, we divided our plot into four quadrants ")
+    putpdf text ("based on median 30q70 and median progress score. ")
+   	putpdf text ("Countries with a below average 30q70 and an above average progress score (bottom right quadrant) ")
+   	putpdf text ("had relatively low premature non-communicable disease (NCD) mortality and national policies ")
+   	putpdf text ("that should enable future NCD reductions. Countries with an above average 30q70 ")
+   	putpdf text ("and a below average progress score (top left quadrant) had relatively high ")
+   	putpdf text ("premature NCD mortality and lacked national policies for future reductions. ")
+
+    ** putpdf save 
+    putpdf save "`outputpath'/05_Outputs/Health and Place/HAMBLETON_HealthPlace_200623_Figure4", replace
 

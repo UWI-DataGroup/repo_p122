@@ -1,6 +1,6 @@
 ** HEADER -----------------------------------------------------
 **  DO-FILE METADATA
-    //  algorithm name			    e006_dataprep.do
+    //  algorithm name			    e006_dataprep_2017.do
     //  project:				    Premature Mortality in the Caribbean (2000-2016)
     //  analysts:				    Ian HAMBLETON
     // 	date last modified	    	6-JUN-2019
@@ -21,7 +21,7 @@
 
     ** Close any open log file and open a new log file
     capture log close
-    log using "`logpath'\e006_dataprep", replace
+    log using "`logpath'\e006_dataprep_2017", replace
 ** HEADER -----------------------------------------------------
 
 ** For SAP --> See e000_000.do
@@ -105,25 +105,43 @@ label var pmort "% deaths from NCDs"
 label var tmort "Total # NCD deaths"	
 label var pdeath "Risk of premature death from NCD"	
 
+rename t8 t17
+rename t9 t18
+rename t10 t19
+rename t5a t5
+rename t5b t6 
+rename t5c t7 
+rename t5d t8
+rename t5e t9 
+rename t6a t10 
+rename t6b t11
+rename t6c t12
+rename t7a t13
+rename t7b t14
+rename t7c t15
+rename t7d t16
+
 label var t1 "National NCD targets"	
 label var t2 "Mortality data"	
 label var t3 "Risk factor surveys"	
 label var t4 "National integrated NCD policy/strategy/action plan"
-label var t5a "increased excise taxes and prices"	
-label var t5b "smoke-free policies	"
-label var t5c "large graphic health warnings/plain packaging"	
-label var t5d "bans on advertising, promotion and sponsorship	"
-label var t5e "mass media campaigns	"
-label var t6a "restrictions on physical availability"	
-label var t6b "advertising bans or comprehensive restrictions	"
-label var t6c "increased excise taxes	"
-label var t7a "salt/sodium policies"	
-label var t7b "saturated fatty acids and trans-fats policies"	
-label var t7c "marketing to children restrictions"	
-label var t7d "marketing of breast-milk substitutes restrictions	"
-label var t8 "Public education and awareness campaign on physical activity"	
-label var t9 "Guidelines for management of cancer, CVD, diabetes and CRD"	
-label var t10 "Drug therapy/counselling to prevent heart attacks and strokes"
+label var t5 "increased excise taxes and prices"	
+label var t6 "smoke-free policies	"
+label var t7 "large graphic health warnings/plain packaging"	
+label var t8 "bans on advertising, promotion and sponsorship	"
+label var t9 "mass media campaigns	"
+label var t10 "restrictions on physical availability"	
+label var t11 "advertising bans or comprehensive restrictions	"
+label var t12 "increased excise taxes	"
+label var t13 "salt/sodium policies"	
+label var t14 "saturated fatty acids and trans-fats policies"	
+label var t15 "marketing to children restrictions"	
+label var t16 "marketing of breast-milk substitutes restrictions	"
+label var t17 "Public education and awareness campaign on physical activity"	
+label var t18 "Guidelines for management of cancer, CVD, diabetes and CRD"	
+label var t19 "Drug therapy/counselling to prevent heart attacks and strokes"
 
+** Gen total score in 2017
+egen tscore2017 = rowtotal(t1 t2 t3 t4 t5 t6 t7 t8 t9 t10 t11 t12 t13 t14 t15 t16 t17 t18 t19)
 label data "WHO Progress monitor data"
-save "`datapath'/version01/2-working/file07_who_progress_monitor", replace
+save "`datapath'/version01/2-working/file07_who_progress_monitor_2017", replace
