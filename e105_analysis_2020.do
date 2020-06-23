@@ -25,7 +25,7 @@
     log using "`logpath'\e105_analysis", replace
 ** HEADER -----------------------------------------------------
 
-
+/*
 
 
 ** For SAP --> See e000_000.do
@@ -216,7 +216,7 @@ graph export "X:\The University of the West Indies\DataGroup - DG_Projects\PROJE
 graph export "X:\The University of the West Indies\DataGroup - DG_Projects\PROJECT_p122\05_Outputs\HAMBLETON_Figure1.png", replace width(4000)
 
 
-/*
+
 
 ** -----------------------------------------------------
 ** FIGURE X - NOT USED
@@ -350,7 +350,8 @@ tempfile pmort
 save `pmort', replace 
 
 ** Join with WHO progress monitoring 
-use "`datapath'/version01/2-working/file07_who_progress_monitor", clear 
+use "`datapath'/version01/2-working/file07_who_progress_monitor_2020", clear 
+rename tscore2020 tot_score 
 rename cid iso3 
 merge 1:1 iso3 using `pmort' 
 drop if _merge==1
@@ -358,23 +359,6 @@ drop _merge
 sort rid iso3
 order iso3 unid rid pmort* totpop tmort pdeath 
 
-** Total score from --> WHO progress monitor
-rename t8 t17
-rename t9 t18
-rename t10 t19
-rename t5a t5
-rename t5b t6 
-rename t5c t7 
-rename t5d t8
-rename t5e t9 
-rename t6a t10 
-rename t6b t11
-rename t6c t12
-rename t7a t13
-rename t7b t14
-rename t7c t15
-rename t7d t16
-egen tot_score = rowtotal(t1 t2 t3 t4 t5 t6 t7 t8 t9 t10 t11 t12 t13 t14 t15 t16 t17 t18 t19)
 drop totpop pmort tmort  
 
 ** We want median premature mortality and median progress score
