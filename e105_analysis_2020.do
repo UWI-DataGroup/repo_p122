@@ -373,58 +373,72 @@ dis " Premature mortality = " `mort_med'
 ** iso3 to lowercase
 replace iso3 = lower(iso3)
 
-
-** Caribbean
+/*
+** Caribbean (LABELS AUTOMATED)
 #delimit ;
 	gr twoway 
 		/// BOTTOM LEFT. Orange --> Low mortality but poor progress
 		/// BRB / BHS
-		(sc pmort2016_3 tot_score if iso3=="brb" & rid==1 & pmort2016_3<`mort_med' & tot_score<`prog_med'   ,  
+		(sc pmort2016_3 tot_score if iso3=="brb" & rid==1   ,  
+					mlabel(iso3)
 					mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
 					mlabp(6))
-		(sc pmort2016_3 tot_score if iso3=="bhs" & rid==1 & pmort2016_3<`mort_med' & tot_score<`prog_med'   ,  
+		(sc pmort2016_3 tot_score if iso3=="bhs" & rid==1   ,  
+					mlabel(iso3)
 					mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
 					mlabp(9))
 		/// TOP LEFT. Red --> Poor outlook
 		/// ATG / BLZ / CUB / GRD / GUY / HTI / LCA / VCT / TTO
-		(sc pmort2016_3 tot_score if iso3=="atg" & rid==1 & pmort2016_3>=`mort_med' & tot_score<`prog_med'  ,  
+		(sc pmort2016_3 tot_score if iso3=="atg" & rid==1   ,  
+					mlabel(iso3)
 					mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
 					mlabp(9))
-		(sc pmort2016_3 tot_score if iso3=="blz" & rid==1 & pmort2016_3>=`mort_med' & tot_score<`prog_med'  ,  
+		(sc pmort2016_3 tot_score if iso3=="blz" & rid==1   ,  
+					mlabel(iso3)
 					mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
 					mlabp(2))
-		(sc pmort2016_3 tot_score if iso3=="cub" & rid==1 & pmort2016_3>=`mort_med' & tot_score<`prog_med'  ,  
+		(sc pmort2016_3 tot_score if iso3=="cub" & rid==1   ,  
+					mlabel(iso3)
 					mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
 					mlabp(12))
-		(sc pmort2016_3 tot_score if iso3=="grd" & rid==1 & pmort2016_3>=`mort_med' & tot_score<`prog_med'  ,  
+		(sc pmort2016_3 tot_score if iso3=="grd" & rid==1  ,  
+					mlabel(iso3)
 					mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
 					mlabp(8) mlabg(1pt))
-		(sc pmort2016_3 tot_score if iso3=="guy" & rid==1 & pmort2016_3>=`mort_med' & tot_score<`prog_med'  ,  
+		(sc pmort2016_3 tot_score if iso3=="guy" & rid==1   ,  
+					mlabel(iso3)
 					mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
 					mlabp(12))
-		(sc pmort2016_3 tot_score if iso3=="hti" & rid==1 & pmort2016_3>=`mort_med' & tot_score<`prog_med'  ,  
+		(sc pmort2016_3 tot_score if iso3=="hti" & rid==1   ,  
+					mlabel(iso3)
 					mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
 					mlabp(12))
-		(sc pmort2016_3 tot_score if iso3=="lca" & rid==1 & pmort2016_3>=`mort_med' & tot_score<`prog_med'  ,  
+		(sc pmort2016_3 tot_score if iso3=="lca" & rid==1   ,  
+					mlabel(iso3)
 					mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
 					mlabp(12))
-		(sc pmort2016_3 tot_score if iso3=="vct" & rid==1 & pmort2016_3>=`mort_med' & tot_score<`prog_med'  ,  
+		(sc pmort2016_3 tot_score if iso3=="vct" & rid==1   ,  
+					mlabel(iso3)
 					mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
 					mlabp(12))
-		(sc pmort2016_3 tot_score if iso3=="tto" & rid==1 & pmort2016_3>=`mort_med' & tot_score<`prog_med'  ,  
+		(sc pmort2016_3 tot_score if iso3=="tto" & rid==1  ,  
+					mlabel(iso3)
 					mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
 					mlabp(12))
 		/// BOTTOM RIGHT. Green --> Very good progress 
 		/// JAM
-		(sc pmort2016_3 tot_score if iso3=="jam" & rid==1 & pmort2016_3<`mort_med' & tot_score>=`prog_med'  ,  
+		(sc pmort2016_3 tot_score if iso3=="jam" & rid==1  ,  
+					mlabel(iso3)
 					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
 					mlabp(4))
 		/// TOP RIGHT. Orange --> Hopeful 
 		/// DOM / SUR
-		(sc pmort2016_3 tot_score if iso3=="dom" & rid==1 & pmort2016_3>=`mort_med' & tot_score>=`prog_med' ,  
+		(sc pmort2016_3 tot_score if iso3=="dom" & rid==1  ,  
+					mlabel(iso3)
 					mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
 					mlabp(4))
-		(sc pmort2016_3 tot_score if iso3=="sur" & rid==1 & pmort2016_3>=`mort_med' & tot_score>=`prog_med' ,  
+		(sc pmort2016_3 tot_score if iso3=="sur" & rid==1  ,  
+					mlabel(iso3)
 					mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
 					mlabp(12))
 		,
@@ -453,26 +467,144 @@ replace iso3 = lower(iso3)
 
 			/// Country TEXT on graphic
 			/// RED (upper left)
-			text( 31.6 15.0  "{bf:guy}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
-			text( 27.4 3.8  "{bf:hti}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
-			text( 24.1 10.2  "{bf:vct}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
-			text( 22.6 8.4  "{bf:atg}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
-			text( 22.5 13.8  "{bf:blz}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
-			text( 22.2 16.2  "{bf:tto}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
-			text( 21.0 8.9  "{bf:grd}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
-			text( 19.0 9.9  "{bf:lca}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
-			text( 17.4 14.5  "{bf:cub}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// text( 31.6 15.0  "{bf:guy}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// text( 27.4 3.8  "{bf:hti}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// text( 24.1 10.2  "{bf:vct}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// text( 22.6 8.4  "{bf:atg}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// text( 22.5 13.8  "{bf:blz}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// text( 22.2 16.2  "{bf:tto}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// text( 21.0 8.9  "{bf:grd}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// text( 19.0 9.9  "{bf:lca}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// text( 17.4 14.5  "{bf:cub}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
 
 			/// GREEN (lower right)
-			text( 14.6 23.6  "{bf:jam}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// text( 14.6 23.6  "{bf:jam}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
 
 			/// ORANGE (upper right)
-			text( 22.7 20.6  "{bf:sur}", 		j(right) place(w) size(3) col("253 174 97 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
-			text( 19.0 21.8  "{bf:dom}", 		j(right) place(w) size(3) col("253 174 97 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// text( 22.7 20.6  "{bf:sur}", 		j(right) place(w) size(3) col("253 174 97 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// text( 19.0 21.8  "{bf:dom}", 		j(right) place(w) size(3) col("253 174 97 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
 
 			/// ORANGE (lower left)
-			text( 15.5 9.5  "{bf:bhs}", 		j(right) place(w) size(3) col("253 174 97 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
-			text( 15.3 15.2  "{bf:brb}", 		j(right) place(w) size(3) col("253 174 97 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// text( 15.5 9.5  "{bf:bhs}", 		j(right) place(w) size(3) col("253 174 97 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// text( 15.3 15.2  "{bf:brb}", 		j(right) place(w) size(3) col("253 174 97 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+
+			/// Quandrant descriptors
+			/// text( 7.5  35  "{it:Low 30q70}" "{it:High progress}", 		j(right) place(w) size(3) col(gs0) box lc(gs0) lw(0.1) fc("26 150 65 %50") margin(l=1 r=1 t=1 b=1) ) 
+			/// text( 32.5  35  "{it:High 30q70}" "{it:High progress}", 	j(right) place(w) size(3) col(gs0) box lc(gs0) lw(0.1) fc("253 174 97 %50") margin(l=1 r=1 t=1 b=1) ) 
+
+			/// text( 32.5  0  "{it:High 30q70}" "{it:Low progress}", 	j(left) place(e) size(3) col(gs0) box lc(gs0) lw(0.1) fc("215 25 28 %50") margin(l=1 r=1 t=1 b=1) ) 
+			/// text( 7.5  0  "{it:Low 30q70}" "{it:Low progress}", 		j(left) place(e) size(3) col(gs0) box lc(gs0) lw(0.1) fc("253 174 97 %50") margin(l=1 r=1 t=1 b=1) ) 
+
+			legend(off)
+			name(monitor_caribbean_auto)
+			;
+	#delimit cr
+*/
+
+** Caribbean (LABELS PLACED MANUALLY)
+#delimit ;
+	gr twoway 
+		/// BOTTOM LEFT. Orange --> Low mortality but poor progress
+		/// BRB / BHS
+		(sc pmort2016_3 tot_score if iso3=="brb" & rid==1   ,  
+					mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
+					mlabp(6))
+		(sc pmort2016_3 tot_score if iso3=="bhs" & rid==1   ,  
+					mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
+					mlabp(9))
+		(sc pmort2016_3 tot_score if iso3=="jam" & rid==1  ,  
+					mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
+					mlabp(4))
+		(sc pmort2016_3 tot_score if iso3=="cub" & rid==1   ,  
+					mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
+					mlabp(12))
+
+		/// TOP RIGHT. Orange --> Hopeful 
+		/// DOM / SUR
+		(sc pmort2016_3 tot_score if iso3=="dom" & rid==1  ,  
+					mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
+					mlabp(4))
+		(sc pmort2016_3 tot_score if iso3=="lca" & rid==1   ,  
+					mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
+					mlabp(12))
+		(sc pmort2016_3 tot_score if iso3=="tto" & rid==1  ,  
+					mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
+					mlabp(12))
+		(sc pmort2016_3 tot_score if iso3=="guy" & rid==1   ,  
+					mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
+					mlabp(12))
+
+		/// TOP LEFT. Red --> Poor outlook
+		/// ATG / BLZ / CUB / GRD / GUY / HTI / LCA / VCT / TTO
+		(sc pmort2016_3 tot_score if iso3=="sur" & rid==1  ,  
+					mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
+					mlabp(12))
+
+		(sc pmort2016_3 tot_score if iso3=="atg" & rid==1   ,  
+					mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
+					mlabp(9))
+		(sc pmort2016_3 tot_score if iso3=="blz" & rid==1   ,  
+					mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
+					mlabp(2))
+
+		(sc pmort2016_3 tot_score if iso3=="grd" & rid==1  ,  
+					mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
+					mlabp(8) mlabg(1pt))
+
+		(sc pmort2016_3 tot_score if iso3=="hti" & rid==1   ,  
+					mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
+					mlabp(12))
+
+		(sc pmort2016_3 tot_score if iso3=="vct" & rid==1   ,  
+					mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
+					mlabp(12))
+
+		/// BOTTOM RIGHT. Green --> Very good progress 
+		/// JAM
+
+		,
+			graphregion(color(gs16)) ysize(10) xsize(6)
+			plotregion(margin(zero))
+
+			xlab(0(5)35, 
+			tstyle(major_notick) labs(4) labc(gs10) nogrid format(%9.0f))
+			xtitle("WHO progress monitor score", size(4)  color(gs10) margin(l=2 r=2 t=5 b=2)) 
+			xscale(lw(vthin) noline range(5(5)35)) 
+			
+			ylab(10(5)35,
+			labs(4) labc(gs10) tstyle(major_notick) nogrid glc(gs16) angle(0) format(%9.0f))
+			yscale(lw(vthin) noline range(5(5)35)) 
+			ytitle("Premature Mortality (30q70)", size(4) color(gs10) margin(l=2 r=5 t=2 b=2)) 
+
+			yline(`mort_med', lc(gs7) lw(0.25))
+			xline(`prog_med', lc(gs7) lw(0.25))
+			subtitle("(C) Caribbean", pos(11) size(4))
+			
+			note("atg=Antigua and Barbuda, bhs=Bahamas, blz=Belize," 
+			"brb=Barbados, cub=Cuba, dom=Dominican Republic," 
+			"grd=Grenada, guy=Guyana, hti=Haiti, jam=Jamaica,"
+			"lca=Saint Lucia, sur=Suriname, tto=Trinidad and Tobago," 
+			"vct=Saint Vincent and the Grenadines", color(gs10) size(3))
+
+			/// Country TEXT on graphic
+			/// RED (upper left)
+			text( 27.5 3.8  "{bf:hti}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 24.1 12.4  "{bf:vct}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 22.4 10.8  "{bf:atg}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 23.5 15.0  "{bf:blz}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 21.3 7.7  "{bf:grd}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 21.2 14.1  "{bf:sur}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+
+			/// ORANGE
+			text( 31.6 18.8  "{bf:guy}", 		j(right) place(w) size(3) col("253 174 97 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 21.4 17.4  "{bf:tto}", 		j(right) place(e) size(3) col("253 174 97 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 19.7 16.7  "{bf:lca}", 		j(right) place(e) size(3) col("253 174 97 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 18.1 16.7  "{bf:dom}", 		j(right) place(e) size(3) col("253 174 97 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+
+			text( 15.8 17.0  "{bf:cub}", 		j(right) place(e) size(3) col("253 174 97 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 14.0 14.5  "{bf:jam}", 		j(right) place(w) size(3) col("253 174 97 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 15.5 9.6  "{bf:bhs}", 		j(right) place(w) size(3) col("253 174 97 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 17.0 14.6  "{bf:brb}", 		j(right) place(w) size(3) col("253 174 97 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
 
 			/// Quandrant descriptors
 			text( 7.5  35  "{it:Low 30q70}" "{it:High progress}", 		j(right) place(w) size(3) col(gs0) box lc(gs0) lw(0.1) fc("26 150 65 %50") margin(l=1 r=1 t=1 b=1) ) 
@@ -490,74 +622,93 @@ graph export "X:\The University of the West Indies\DataGroup - DG_Projects\PROJE
 
 
 
+
+/*
 ** Minor jitter to show both country points (Honduras and El Salvador) 
 replace pmort2016_3 = pmort2016_3+0.2 if iso3=="hnd"
 replace pmort2016_3 = pmort2016_3-0.4 if iso3=="slv"
 
-** South and Central America 
+** South and Central America (LABELS AUTOMATED)
 #delimit ;
 	gr twoway 
 		/// BOTTOM LEFT. Orange --> Low mortality but poor progress
 		/// NIC
-		(sc pmort2016_3 tot_score if iso3=="nic" & rid==6  & pmort2016_3<`mort_med' & tot_score<`prog_med'  ,  
+		(sc pmort2016_3 tot_score if iso3=="nic" & rid==6    ,  
 					mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
 					mlabp(12))
 		/// TOP LEFT. Red --> Poor outlook
 		/// ATG / BLZ / CUB / GRD / GUY / HTI / LCA / VCT / TTO
 
-		(sc pmort2016_3 tot_score if iso3=="bol" & rid==6 & pmort2016_3>=`mort_med' & tot_score<`prog_med'  ,  
+		(sc pmort2016_3 tot_score if iso3=="bol" & rid==6   ,  
+					mlabel(iso3)
 					mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
 					mlabp(9))
-		(sc pmort2016_3 tot_score if iso3=="pry" & rid==6 & pmort2016_3>=`mort_med' & tot_score<`prog_med'  ,  
+		(sc pmort2016_3 tot_score if iso3=="pry" & rid==6  ,  
+					mlabel(iso3)
 					mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
 					mlabp(1))
-		(sc pmort2016_3 tot_score if iso3=="ven" & rid==6 & pmort2016_3>=`mort_med' & tot_score<`prog_med'  ,  
-					mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
-					mlabp(12))
+
 
 		/// BOTTOM RIGHT. Green --> Very good progress 
 		/// ARG / CRI
-		(sc pmort2016_3 tot_score if iso3=="arg" & rid==6 & pmort2016_3<`mort_med' & tot_score>=`prog_med'  ,  
+		(sc pmort2016_3 tot_score if iso3=="arg" & rid==6   ,  
+					mlabel(iso3)
 					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
 					mlabp(12))
-		(sc pmort2016_3 tot_score if iso3=="chl" & rid==6 & pmort2016_3<`mort_med' & tot_score>=`prog_med'  ,  
+		(sc pmort2016_3 tot_score if iso3=="chl" & rid==6   ,  
+					mlabel(iso3)
 					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
 					mlabp(4) mlabg(1pt))
-		(sc pmort2016_3 tot_score if iso3=="col" & rid==6 & pmort2016_3<`mort_med' & tot_score>=`prog_med'  ,  
+		(sc pmort2016_3 tot_score if iso3=="col" & rid==6   ,  
+					mlabel(iso3)
 					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
 					mlabp(3) mlabg(2pt))
-		(sc pmort2016_3 tot_score if iso3=="cri" & rid==6 & pmort2016_3<`mort_med' & tot_score>=`prog_med'  ,  
+		(sc pmort2016_3 tot_score if iso3=="cri" & rid==6  ,  
+					mlabel(iso3)
 					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
 					mlabp(12))
-		(sc pmort2016_3 tot_score if iso3=="ecu" & rid==6 & pmort2016_3<`mort_med' & tot_score>=`prog_med'  ,  
+		(sc pmort2016_3 tot_score if iso3=="ecu" & rid==6   ,  
+					mlabel(iso3)
 					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
 					mlabp(5) mlabg(1pt))
-		(sc pmort2016_3 tot_score if iso3=="gtm" & rid==6 & pmort2016_3<`mort_med' & tot_score>=`prog_med'  ,  
+		(sc pmort2016_3 tot_score if iso3=="gtm" & rid==6   ,  
+					mlabel(iso3)
 					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
 					mlabp(10))
-		(sc pmort2016_3 tot_score if iso3=="hnd" & rid==6 & pmort2016_3<`mort_med' & tot_score>=`prog_med'  ,  
+		(sc pmort2016_3 tot_score if iso3=="hnd" & rid==6   ,  
+					mlabel(iso3)
 					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
 					mlabp(9))	
-		(sc pmort2016_3 tot_score if iso3=="mex" & rid==6 & pmort2016_3<`mort_med' & tot_score>=`prog_med'  ,  
+		(sc pmort2016_3 tot_score if iso3=="mex" & rid==6   ,  
+					mlabel(iso3)
 					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
 					mlabp(3))	
-		(sc pmort2016_3 tot_score if iso3=="pan" & rid==6 & pmort2016_3<`mort_med' & tot_score>=`prog_med' ,  
+		(sc pmort2016_3 tot_score if iso3=="pan" & rid==6  ,  
+					mlabel(iso3)
 					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
 					mlabp(12))
-		(sc pmort2016_3 tot_score if iso3=="per" & rid==6 & pmort2016_3<`mort_med' & tot_score>=`prog_med'  ,  
+		(sc pmort2016_3 tot_score if iso3=="per" & rid==6   ,  
+					mlabel(iso3)
 					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
 					mlabp(6) mlabg(1pt))			
-		(sc pmort2016_3 tot_score if iso3=="slv" & rid==6 & pmort2016_3<`mort_med' & tot_score>=`prog_med'  ,  
+		(sc pmort2016_3 tot_score if iso3=="slv" & rid==6   ,  
+					mlabel(iso3)
 					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
 					mlabp(8))					
 		/// TOP RIGHT. Orange --> Hopeful 
 		/// BRA
-		(sc pmort2016_3 tot_score if iso3=="bra" & rid==6 & pmort2016_3>=`mort_med' & tot_score>=`prog_med'  ,  
+		(sc pmort2016_3 tot_score if iso3=="bra" & rid==6   ,  
+					mlabel(iso3)
 					mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
 					mlabp(12))
-		(sc pmort2016_3 tot_score if iso3=="ury" & rid==6 & pmort2016_3>=`mort_med' & tot_score>=`prog_med'  ,  
+		(sc pmort2016_3 tot_score if iso3=="ury" & rid==6   ,  
+					mlabel(iso3)
 					mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
 					mlabp(1))
+		(sc pmort2016_3 tot_score if iso3=="ven" & rid==6   ,  
+					mlabel(iso3)
+					mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
+					mlabp(12))					
 		,
 			graphregion(color(gs16)) ysize(10) xsize(6)
 			plotregion(margin(zero))
@@ -584,27 +735,155 @@ replace pmort2016_3 = pmort2016_3-0.4 if iso3=="slv"
 
 			/// Country TEXT on graphic
 			/// RED (upper left)
-			text( 19 12.6  "{bf:ven}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
-			text( 17.4 8.5  "{bf:bol}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
-			text( 18.4 16.3  "{bf:pry}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// text( 19 12.6  "{bf:ven}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// text( 17.4 8.5  "{bf:bol}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// text( 18.4 16.3  "{bf:pry}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
 			/// ORANGE (lower left)
-			text( 14.5 6.4  "{bf:nic}", 		j(right) place(w) size(3) col("253 174 97 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// text( 14.5 6.4  "{bf:nic}", 		j(right) place(w) size(3) col("253 174 97 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
 			/// ORANGE (upper right)
-			text( 17.8 19.6  "{bf:ury}", 		j(right) place(w) size(3) col("253 174 97 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
-			text( 17.6 31  "{bf:bra}", 		j(right) place(w) size(3) col("253 174 97 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// text( 17.8 19.6  "{bf:ury}", 		j(right) place(w) size(3) col("253 174 97 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// text( 17.6 31  "{bf:bra}", 		j(right) place(w) size(3) col("253 174 97 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
 			/// GREEN (lower right)
-			text( 15.2 15.8  "{bf:gtm}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
-			text( 14.3 15.8  "{bf:hnd}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
-			text( 13.5 15.8  "{bf:slv}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
-			text( 12.5 16.5  "{bf:per}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
-			text( 15.3 21.4  "{bf:mex}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// text( 15.2 15.8  "{bf:gtm}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// text( 14.3 15.8  "{bf:hnd}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// text( 13.5 15.8  "{bf:slv}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// text( 12.5 16.5  "{bf:per}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// text( 15.3 21.4  "{bf:mex}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
 
-			text( 16.8 23.0  "{bf:arg}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
-			text( 15.5 27.0  "{bf:col}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
-			text( 12.5 34.0  "{bf:cri}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
-			text( 12.3 27.9  "{bf:chl}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
-			text( 14.0 21.3  "{bf:pan}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
-			text( 12.21 23.0  "{bf:ecu}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// text( 16.8 23.0  "{bf:arg}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// text( 15.5 27.0  "{bf:col}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// text( 12.5 34.0  "{bf:cri}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// text( 12.3 27.9  "{bf:chl}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// text( 14.0 21.3  "{bf:pan}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// text( 12.21 23.0  "{bf:ecu}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+
+			/// Quandrant descriptors
+			/// text( 7.5  35  "{it:Low 30q70}" "{it:High progress}", 		j(right) place(w) size(3) col(gs0) box lc(gs0) lw(0.1) fc("26 150 65 %50") margin(l=1 r=1 t=1 b=1) ) 
+			/// text( 32.5  35  "{it:High 30q70}" "{it:High progress}", 	j(right) place(w) size(3) col(gs0) box lc(gs0) lw(0.1) fc("253 174 97 %50") margin(l=1 r=1 t=1 b=1) ) 
+
+			/// text( 32.5  0  "{it:High 30q70}" "{it:Low progress}", 	j(left) place(e) size(3) col(gs0) box lc(gs0) lw(0.1) fc("215 25 28 %50") margin(l=1 r=1 t=1 b=1) ) 
+			/// text( 7.5  0  "{it:Low 30q70}" "{it:Low progress}", 		j(left) place(e) size(3) col(gs0) box lc(gs0) lw(0.1) fc("253 174 97 %50") margin(l=1 r=1 t=1 b=1) ) 
+
+			legend(off)
+			name(monitor_southameric_auto)
+			;
+	#delimit cr
+
+
+*/
+
+** South and Central America (LABELS PLACED MANUALLY)
+#delimit ;
+	gr twoway 
+		/// BOTTOM LEFT. Orange --> Low mortality but poor progress
+		/// NIC
+		(sc pmort2016_3 tot_score if iso3=="nic" & rid==6    ,  
+					mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
+					mlabp(12))
+		/// TOP LEFT. Red --> Poor outlook
+		/// ATG / BLZ / CUB / GRD / GUY / HTI / LCA / VCT / TTO
+
+		(sc pmort2016_3 tot_score if iso3=="bol" & rid==6   ,  
+					mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
+					mlabp(9))
+		(sc pmort2016_3 tot_score if iso3=="pry" & rid==6  ,  
+					mlabs(3.5) mlabp(12) mlabc("215 25 28") msize(4) m(O) mlc(gs0) mfc("215 25 28 %50") mlw(0.1)
+					mlabp(1))
+
+		/// BOTTOM RIGHT. Green --> Very good progress 
+		/// ARG / CRI
+		(sc pmort2016_3 tot_score if iso3=="arg" & rid==6   ,  
+					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
+					mlabp(12))
+		(sc pmort2016_3 tot_score if iso3=="chl" & rid==6   ,  
+					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
+					mlabp(4) mlabg(1pt))
+		(sc pmort2016_3 tot_score if iso3=="col" & rid==6   ,  
+					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
+					mlabp(3) mlabg(2pt))
+		(sc pmort2016_3 tot_score if iso3=="cri" & rid==6  ,  
+					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
+					mlabp(12))
+		(sc pmort2016_3 tot_score if iso3=="ecu" & rid==6   ,  
+					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
+					mlabp(5) mlabg(1pt))
+		(sc pmort2016_3 tot_score if iso3=="gtm" & rid==6   ,  
+					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
+					mlabp(10))
+		(sc pmort2016_3 tot_score if iso3=="hnd" & rid==6   ,  
+					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
+					mlabp(9))	
+		(sc pmort2016_3 tot_score if iso3=="mex" & rid==6   ,  
+					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
+					mlabp(3))	
+		(sc pmort2016_3 tot_score if iso3=="pan" & rid==6  ,  
+					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
+					mlabp(12))
+		(sc pmort2016_3 tot_score if iso3=="per" & rid==6   ,  
+					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
+					mlabp(6) mlabg(1pt))			
+		(sc pmort2016_3 tot_score if iso3=="slv" & rid==6   ,  
+					mlabs(3.5) mlabp(12) mlabc("26 150 65") msize(4) m(O) mlc(gs0) mfc("26 150 65 %50") mlw(0.1)
+					mlabp(8))					
+		/// TOP RIGHT. Orange --> Hopeful 
+		/// BRA
+		(sc pmort2016_3 tot_score if iso3=="bra" & rid==6   ,  
+					mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
+					mlabp(12))
+		(sc pmort2016_3 tot_score if iso3=="ury" & rid==6   ,  
+					mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
+					mlabp(1))
+		(sc pmort2016_3 tot_score if iso3=="ven" & rid==6   ,  
+					mlabs(3.5) mlabp(12) mlabc("253 174 97") msize(4) m(O) mlc(gs0) mfc("253 174 97 %50") mlw(0.1)
+					mlabp(12))					
+
+		,
+			graphregion(color(gs16)) ysize(10) xsize(6)
+			plotregion(margin(zero))
+
+			xlab(0(5)35, 
+			tstyle(major_notick) labs(4) labc(gs10) nogrid format(%9.0f))
+			xtitle("WHO progress monitor score", size(4)  color(gs10) margin(l=2 r=2 t=5 b=2)) 
+			xscale(lw(vthin) noline range(5(5)35)) 
+			
+			ylab(10(5)35,
+			labs(4) labc(gs10) tstyle(major_notick) nogrid glc(gs16) angle(0) format(%9.0f))
+			yscale(lw(vthin) noline range(5(5)35)) 
+			ytitle("Premature Mortality (30q70)", size(4) color(gs10) margin(l=2 r=5 t=2 b=2)) 
+
+			yline(`mort_med', lc(gs7) lw(0.25))
+			xline(`prog_med', lc(gs7) lw(0.25))
+			subtitle("(B) South and Central America", pos(11) size(4))
+			
+			note("arg=Argentina, bol=Bolivia, bra=Brazil, chl=Chile," 
+			"col=Colombia, cri=Costa Rica, ecu=Ecuador," 
+			" gtm=Guatemala, hnd=Honduras, mex=Mexico," 
+			" nic=Nicaragua, pan=Panama, pry=Paraguay, per=Peru, " 
+			"slv=El Salvador, ury=Uruguay, ven=Venezuela", color(gs10) size(3))
+
+			/// Country TEXT on graphic
+			/// RED (upper left)
+			text( 18.1 13.7  "{bf:pry}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 17.1 13.7  "{bf:bol}", 		j(right) place(w) size(3) col("215 25 28 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			/// ORANGE
+			text( 18.8 18.0  "{bf:ven}", 		j(right) place(e) size(3) col("253 174 97 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 14.3 7.5  "{bf:nic}", 		j(right) place(w) size(3) col("253 174 97 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 17.6 24.5  "{bf:ury}", 		j(right) place(w) size(3) col("253 174 97 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 17.6 31  "{bf:bra}", 		j(right) place(w) size(3) col("253 174 97 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+
+			/// GREEN
+			text( 14.0 15.5  "{bf:hnd}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 14.9 22.5  "{bf:gtm}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 15.9 22.7  "{bf:mex}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+
+			text( 16.9 25.6  "{bf:arg}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 15.6 29.0  "{bf:col}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 12.5 32.7  "{bf:cri}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 11.4 32.9  "{bf:chl}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 14.0 23.5  "{bf:pan}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 13.3 24.3  "{bf:ecu}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 12.5 24.3  "{bf:per}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
+			text( 12.6 18.9  "{bf:slv}", 		j(right) place(w) size(3) col("26 150 65 %50") nobox lc(gs0) margin(l=0 r=0 t=0 b=0) ) 
 
 			/// Quandrant descriptors
 			text( 7.5  35  "{it:Low 30q70}" "{it:High progress}", 		j(right) place(w) size(3) col(gs0) box lc(gs0) lw(0.1) fc("26 150 65 %50") margin(l=1 r=1 t=1 b=1) ) 
@@ -619,6 +898,7 @@ replace pmort2016_3 = pmort2016_3-0.4 if iso3=="slv"
 	#delimit cr
 graph export "X:\The University of the West Indies\DataGroup - DG_Projects\PROJECT_p122\05_Outputs\HAMBLETON_Figure4b.svg", as(svg) name("monitor_southamerica") replace
 graph export "X:\The University of the West Indies\DataGroup - DG_Projects\PROJECT_p122\05_Outputs\HAMBLETON_Figure4b.png", replace width(4000)
+
 
 
 
@@ -649,9 +929,11 @@ graph export "X:\The University of the West Indies\DataGroup - DG_Projects\PROJE
 			xline(`prog_med', lc(gs7) lw(0.25))
 
 			text( 27.7  2.4  "Haiti", j(right) place(w) size(3.5) col(gs6) nobox lc(gs0) ) 
-			text( 31.75  13.8  "Guyana", j(right) place(w) size(3.5) col(gs6) nobox lc(gs0) ) 
+			text( 31.6  17.8  "Guyana", j(right) place(e) size(3.5) col(gs6) nobox lc(gs0) ) 
 			text( 17.9  31.4  "Brazil", j(right) place(w) size(3.5) col(gs6) nobox lc(gs0) ) 
-			text( 10.4 35  "Costa Rica", j(right) place(w) size(3.5) col(gs6) nobox lc(gs0) ) 
+			text( 10.7 34.2  "Chile", j(right) place(w) size(3.5) col(gs6) nobox lc(gs0) ) 
+			text( 14.0 7.5  "Nicaragua", j(right) place(w) size(3.5) col(gs6) nobox lc(gs0) ) 
+			text( 13.5 28.0  "Costa Rica", j(right) place(e) size(3.5) col(gs6) nobox lc(gs0) ) 
 
 			title("")
 			subtitle("")
